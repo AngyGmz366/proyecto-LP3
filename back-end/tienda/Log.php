@@ -1,15 +1,16 @@
 <?php
-require_once 'Usuario.php';
 
 class Log {
     private $fechaHora;
-    private $accion; 
-    private $usuario; // Objeto de la clase Usuario
+    private $evento; 
+    private $detalles; 
+    private $idEmpleado; // Para almacenar el id del Empleado que genera el Log
 
-    public function __construct($accion, Usuario $usuario) {
+    public function __construct($evento, $detalles, $idEmpleado) {
         $this->fechaHora = new DateTime();
-        $this->accion = $accion;
-        $this->usuario = $usuario;
+        $this->evento = $evento;
+        $this->detalles = $detalles;
+        $this->idEmpleado = $idEmpleado;
     }
 
     // Getters
@@ -17,21 +18,26 @@ class Log {
         return $this->fechaHora;
     }
 
-    public function getAccion() {
-        return $this->accion;
+    public function getEvento() {
+        return $this->evento;
     }
 
-    public function getUsuario() {
-        return $this->usuario;
+    public function getDetalles() {
+        return $this->detalles;
+    }
+
+    public function getIdEmpleado() {
+        return $this->idEmpleado;
     }
 
     // Setters
-    public function setAccion($accion) {
-        $this->accion = $accion;
+    public function setEvento($evento) {
+        $this->evento = $evento;
     }
 
-    // Métodos
-    public function registrarLog() { /* ... */ }
+    public function setDetalles($detalles) {
+        $this->detalles = $detalles;
+    }
 }
 
 ?>
