@@ -1,14 +1,16 @@
 <?php
-require_once 'Persona.php';
 
-class Usuario extends Persona {
+class Usuario {
+    private $nombreUsuario;
+    private $apellidoUsuario;
     private $codigoUsuario;
     private $correo;
     private $contrasena;
     private $fechaRegistro;
 
-    public function __construct($nombre, $apellido, $codigoUsuario, $correo, $contrasena) {
-        parent::__construct($nombre, $apellido);
+    public function __construct($nombreUsuario, $apellidoUsuario, $codigoUsuario, $correo, $contrasena) {
+        $this->nombreUsuario = $nombreUsuario;
+        $this->apellidoUsuario = $apellidoUsuario;
         $this->codigoUsuario = $codigoUsuario;
         $this->correo = $correo;
         $this->contrasena = password_hash($contrasena, PASSWORD_DEFAULT); // Encriptar la contraseña
@@ -16,6 +18,14 @@ class Usuario extends Persona {
     }
 
     // Getters
+    public function getNombreUsuario() {
+        return $this->nombreUsuario;
+    }
+
+    public function getApellidoUsuario() {
+        return $this->apellidoUsuario;
+    }
+
     public function getCodigoUsuario() {
         return $this->codigoUsuario;
     }
@@ -33,6 +43,14 @@ class Usuario extends Persona {
     }
 
     // Setters
+    public function setNombreUsuario($nombreUsuario) {
+        $this->nombreUsuario = $nombreUsuario;
+    }
+
+    public function setApellidoUsuario($apellidoUsuario) {
+        $this->apellidoUsuario = $apellidoUsuario;
+    }
+
     public function setCodigoUsuario($codigoUsuario) {
         $this->codigoUsuario = $codigoUsuario;
     }
@@ -47,15 +65,13 @@ class Usuario extends Persona {
 
     // Métodos 
     public function registrarUsuario() { 
-        // Lógica para registrar un nuevo usuario en la base de datos
-        // Ejemplo con PDO:
         try {
             $conn = new PDO("mysql:host=localhost;dbname=tu_base_de_datos", "tu_usuario", "tu_contraseña");
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $stmt = $conn->prepare("INSERT INTO usuarios (nombre, apellido, codigoUsuario, correo, contrasena) 
-            VALUES (:nombre, :apellido, :codigoUsuario, :correo, :contrasena)");
-            $stmt->bindParam(':nombre', $this->nombre);
-            $stmt->bindParam(':apellido', $this->apellido);
+            $stmt = $conn->prepare("INSERT INTO usuarios (nombreUsuario, apellidoUsuario, codigoUsuario, correo, contrasena) 
+            VALUES (:nombreUsuario, :apellidoUsuario, :codigoUsuario, :correo, :contrasena)");
+            $stmt->bindParam(':nombreUsuario', $this->nombreUsuario);
+            $stmt->bindParam(':apellidoUsuario', $this->apellidoUsuario);
             $stmt->bindParam(':codigoUsuario', $this->codigoUsuario);
             $stmt->bindParam(':correo', $this->correo);
             $stmt->bindParam(':contrasena', $this->contrasena);
@@ -67,7 +83,6 @@ class Usuario extends Persona {
     }
 
     public function eliminarUsuario($codigoUsuario) { 
-        // Lógica para eliminar un usuario de la base de datos
         try {
             $conn = new PDO("mysql:host=localhost;dbname=tu_base_de_datos", "tu_usuario", "tu_contraseña");
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -86,7 +101,6 @@ class Usuario extends Persona {
     }
 
     public function login($codigoUsuario, $contrasena) { 
-        // Lógica para iniciar sesión
         try {
             $conn = new PDO("mysql:host=localhost;dbname=tu_base_de_datos", "tu_usuario", "tu_contraseña");
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -96,11 +110,9 @@ class Usuario extends Persona {
             $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($usuario && password_verify($contrasena, $usuario['contrasena'])) {
-                // Inicio de sesión exitoso
                 echo "Inicio de sesión exitoso";
                 // ... iniciar sesión (ej. con variables de sesión)
             } else {
-                // Credenciales incorrectas
                 echo "Codigo de usuario o contraseña incorrectos";
             }
         } catch(PDOException $e) {
@@ -109,7 +121,6 @@ class Usuario extends Persona {
     }
 
     public function contrasenaCorrecta($contrasena) { 
-        // Lógica para verificar si la contraseña es correcta (usar password_verify)
         return password_verify($contrasena, $this->contrasena);
     }
 

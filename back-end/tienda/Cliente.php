@@ -1,17 +1,23 @@
 <?php
-require_once 'Persona.php';
+require_once 'Usuario.php'; 
 
-class Cliente extends Persona {
+class Cliente extends Usuario {
+    private $idCliente;
     private $membresia; // "bronce", "plata", "oro" o null (sin membresía)
     private $carrito; // Array para almacenar los artículos del carrito
 
-    public function __construct($nombre, $apellido, $membresia = null) {
-        parent::__construct($nombre, $apellido);
+    public function __construct($nombreUsuario, $apellidoUsuario, $codigoUsuario, $correo, $contrasena, $idCliente, $membresia = null) {
+        parent::__construct($nombreUsuario, $apellidoUsuario, $codigoUsuario, $correo, $contrasena);
+        $this->idCliente = $idCliente;
         $this->setMembresia($membresia); 
         $this->carrito = []; // Inicializar el carrito vacío
     }
 
     // Getters
+    public function getIdCliente() {
+        return $this->idCliente;
+    }
+
     public function getMembresia() {
         return $this->membresia;
     }
