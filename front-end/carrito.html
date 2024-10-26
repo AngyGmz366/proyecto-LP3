@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <link rel="stylesheet" href="carrito.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="Logo El Rincón del Coleccionista">
+        </div>
+        <h1>Carrito de Compras</h1>
+    </header>
+
+    <div class="container">
+        <!-- Carrito de compras -->
+        <div class="carrito">
+            <h2>Carrito</h2>
+            <table id="cart-table">
+                <thead>
+                    <tr>
+                        <th>Artículo</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Los artículos se generarán dinámicamente con JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Factura -->
+        <div class="factura">
+            <h2>Factura</h2>
+            <div class="factura-info">
+                <label for="nombre">Nombre del Cliente:</label>
+                <input type="text" id="nombre" placeholder="Nombre">
+                
+                <label for="apellido">Apellido del Cliente:</label>
+                <input type="text" id="apellido" placeholder="Apellido">
+                
+                <label for="usuario">Usuario:</label>
+                <input type="text" id="usuario" placeholder="Usuario">
+                
+                <label for="vendedor">Nombre del Vendedor:</label>
+                <input type="text" id="vendedor" placeholder="Vendedor">
+
+                <label for="factura-id">Código de Factura:</label>
+                <input type="text" id="factura-id" value="FAC1234" readonly>
+
+                <label for="moneda">Moneda de Pago:</label>
+                <select id="moneda">
+                    <option value="L">Lempira (L)</option>
+                    <option value="$">Dólar ($)</option>
+                    <option value="€">Euro (€)</option>
+                </select>
+
+                <label for="subtotal">Subtotal:</label>
+                <input type="text" id="subtotal" value="L0.00" readonly>
+
+                <label for="total">Total:</label>
+                <input type="text" id="total" value="L0.00" readonly>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <button onclick="finalizarCompra()">Finalizar Compra</button>
+    </footer>
+
+    <script>
+        // Simulación de carrito con algunos artículos
+        const cartItems = [
+            { name: 'Juguete Antiguo', quantity: 2, price: 300 },
+            { name: 'Comic Vintage', quantity: 1, price: 450 },
+            { name: 'Figura de Colección', quantity: 1, price: 1200 }
+        ];
+
+        // Función para renderizar los artículos en el carrito
+        function renderCart() {
+            const tbody = document.querySelector('#cart-table tbody');
+            let subtotal = 0;
+
+            cartItems.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>${item.quantity}</td>
+                    <td>L${item.price}</td>
+                `;
+                tbody.appendChild(row);
+
+                subtotal += item.price * item.quantity;
+            });
+
+            document.getElementById('subtotal').value = `L${subtotal}`;
+            document.getElementById('total').value = `L${subtotal}`;
+        }
+
+        // Función para finalizar compra
+        function finalizarCompra() {
+            const nombre = document.getElementById('nombre').value;
+            const apellido = document.getElementById('apellido').value;
+            const usuario = document.getElementById('usuario').value;
+            const vendedor = document.getElementById('vendedor').value;
+
+            if (nombre && apellido && usuario && vendedor) {
+                alert(`Compra realizada con éxito. Factura generada para ${nombre} ${apellido}`);
+            } else {
+                alert('Por favor complete todos los campos antes de finalizar la compra.');
+            }
+        }
+
+        window.onload = renderCart;
+    </script>
+</body>
+</html>

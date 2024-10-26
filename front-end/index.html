@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Rincón del Coleccionista</title>
+    <link rel="stylesheet" href="index.css">
+    <script defer src="index.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="Logo El Rincón del Coleccionista">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#categorias">Categorías</a>
+                    <ul class="submenu">
+                        <li><a href="#juguetes">Juguetes</a></li>
+                        <li><a href="#comics">Comics</a></li>
+                        <li><a href="#figuras">Figuras</a></li>
+                        <li><a href="#posters">Posters</a></li>
+                    </ul>
+                </li>
+                <li><a href="#contacto">Contacto</a></li>
+                 <!-- Enlace para redirigir a la página de carrito -->
+           	 
+                <li><a href="carrito.html">Carrito <span id="cart-count">(0)</span></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="inicio">
+            <h1>Bienvenido a El Rincón del Coleccionista</h1>
+            <p>Encuentra artículos únicos y de colección en nuestra tienda.</p>
+        </section>
+
+        <section id="categorias">
+            <h2>Categorías</h2>
+            <div class="categories-container">
+                <!-- Aquí irían las tarjetas de cada categoría -->
+                <div class="category">
+                    <h3>Juguetes</h3>
+                    <button onclick="addToCart('Juguetes')">Añadir al carrito</button>
+                </div>
+                <div class="category">
+                    <h3>Comics</h3>
+                    <button onclick="addToCart('Comics')">Añadir al carrito</button>
+                </div>
+                <div class="category">
+                    <h3>Figuras</h3>
+                    <button onclick="addToCart('Figuras')">Añadir al carrito</button>
+                </div>
+                <div class="category">
+                    <h3>Posters</h3>
+                    <button onclick="addToCart('Posters')">Añadir al carrito</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>El Rincón del Coleccionista &copy; 2024</p>
+    </footer>
+</body>
+</html>
