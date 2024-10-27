@@ -1,12 +1,19 @@
 <?php
 
+require_once 'Articulo.php'; // Incluir la clase Articulo
+require_once 'DetallesFactura.php'; // Incluir la clase DetalleFactura 
 class Carrito {
     private $articulos; // Map<Articulo, Cantidad>
     private $IDCarrito;
+    private $cliente;     // Relación 1 a 1 con Cliente
+    private $detalleFactura; // Relación 1 a 1 con DetalleFactura
 
-    public function __construct($IDCarrito) {
+    // Constructor modificado (sin DetalleFactura)
+    public function __construct($IDCarrito, Cliente $cliente) { 
         $this->articulos = [];
         $this->IDCarrito = $IDCarrito;
+        $this->cliente = $cliente;
+        $this->detalleFactura = null; // Inicializar como null
     }
 
     // Getters
@@ -18,61 +25,77 @@ class Carrito {
         return $this->IDCarrito;
     }
 
+    // Métodos para gestionar las relaciones
+    public function setCliente(Cliente $cliente) {
+        $this->cliente = $cliente;
+    }
+
+    public function getCliente() {
+        return $this->cliente;
+    }
+
+    public function setDetalleFactura(DetallesFactura $detalleFactura) {
+        $this->detalleFactura = $detalleFactura;
+    }
+
+    public function getDetalleFactura() {
+        return $this->detalleFactura;
+    }
+
     // Métodos
-    public function agregarArticulo($articulo, $cantidad) { 
-        // Verificar si el artículo ya existe en el carrito
-        if (isset($this->articulos[$articulo->getID()])) {
-            // Si existe, aumentar la cantidad
-            $this->articulos[$articulo->getID()] += $cantidad;
+    public function agregarArticulo(Articulo $articulo, $cantidad) { 
+        if (isset($this->articulos[$articulo->getCodigoArticulo()])) {
+            $this->articulos[$articulo->getCodigoArticulo()] += $cantidad;
         } else {
-            // Si no existe, agregarlo al carrito
-            $this->articulos[$articulo->getID()] = $cantidad;
+            $this->articulos[$articulo->getCodigoArticulo()] = $cantidad;
         }
     }
 
-    public function editarCarrito($articulo, $cantidad) {  
-        // Verificar si el artículo existe en el carrito
-        if (isset($this->articulos[$articulo->getID()])) {
-            // Si la cantidad es 0, eliminar el artículo del carrito
+    public function editarCarrito(Articulo $articulo, $cantidad) {     
+        if (isset($this->articulos[$articulo->getCodigoArticulo()])) {
             if ($cantidad == 0) {
-                unset($this->articulos[$articulo->getID()]);
+                unset($this->articulos[$articulo->getCodigoArticulo()]);
             } else {
-                // Si no, actualizar la cantidad
-                $this->articulos[$articulo->getID()] = $cantidad;
+                $this->articulos[$articulo->getCodigoArticulo()] += $cantidad; 
             }
         }
     }
 
     public function vaciarCarrito() { 
-        // Eliminar todos los artículos del carrito
         $this->articulos = [];
     }
 
     public function calcularSubtotal() {
         $subtotal = 0;
-        // Recorrer todos los artículos del carrito
-        foreach ($this->articulos as $idArticulo => $cantidad) {
-            // Obtener el artículo desde la base de datos o donde esté almacenado
-            $articulo = obtenerArticuloPorID($idArticulo); // Esta función debe ser implementada
-            // Sumar el precio del artículo multiplicado por la cantidad al subtotal
-            $subtotal += $articulo->getPrecio() * $cantidad;
+        foreach ($this->articulos as $codigoArticulo => $cantidad) {
+            $articulo = obtenerArticuloPorCodigo($codigoArticulo);
+            if ($articulo) { // Verificar si se obtuvo un artículo válido
+                $subtotal += $articulo->getPrecio() * $cantidad;
+            }
         }
         return $subtotal;
     }
 
-    public function eliminarArticulo($articulo) {
-        // Eliminar el artículo del carrito
-        if (isset($this->articulos[$articulo->getID()])) {
-            unset($this->articulos[$articulo->getID()]);
+    public function eliminarArticulo(Articulo $articulo) {
+        if (isset($this->articulos[$articulo->getCodigoArticulo()])) {
+            unset($this->articulos[$articulo->getCodigoArticulo()]);
         }
     }
 }
 
 // Función para obtener un artículo por su ID (debe ser implementada)
-function obtenerArticuloPorID($idArticulo) {
-    // Lógica para obtener el artículo desde la base de datos o donde esté almacenado
-    // ...
-    return $articulo;
+function obtenerArticuloPorCodigo($codigoArticulo) {
+    try {
+        $conexion = new PDO('mysql:host=localhost;dbname=tu_base_de_datos', 'usuario', 'contraseña');
+        $consulta = $conexion->prepare("SELECT * FROM articulos WHERE codigoArticulo = :codigoArticulo");
+        $consulta->bindParam(':codigoArticulo', $codigoArticulo);
+        $consulta->execute();
+        $articulo = $consulta->fetchObject('Articulo'); 
+        return $articulo; 
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+        return null; 
+    }
 }
 
 ?>

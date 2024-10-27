@@ -1,27 +1,28 @@
 <?php
 
 class DetallesFactura {
-    private $articulo; // Objeto Articulo
     private $cantidad;
-    private $precioUnitario;
+    private $precioUnitario; 
+    private $nombreArticulo; // Para almacenar el nombre del artículo
 
-    public function __construct(Articulo $articulo, $cantidad) {
-        $this->articulo = $articulo;
+    // Constructor modificado para recibir la cantidad, el precio unitario y el nombre del artículo
+    public function __construct($cantidad, $precioUnitario, $nombreArticulo) { 
         $this->cantidad = $cantidad;
-        $this->precioUnitario = $articulo->getPrecio();
+        $this->precioUnitario = $precioUnitario;
+        $this->nombreArticulo = $nombreArticulo;
     }
 
     // Getters
-    public function getArticulo() {
-        return $this->articulo;
-    }
-
     public function getCantidad() {
         return $this->cantidad;
     }
 
     public function getPrecioUnitario() {
         return $this->precioUnitario;
+    }
+
+    public function getNombreArticulo() {
+        return $this->nombreArticulo;
     }
 
     // Métodos 

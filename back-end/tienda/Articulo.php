@@ -102,6 +102,16 @@ class Articulo {
     public function agregarCategoria(Categoria $categoria) {
         $this->categorias[] = $categoria;
     }
+
+    public function aumentarInventario($cantidad) {
+        // Lógica para aumentar la cantidad en stock
+        if ($cantidad > 0) {
+            $this->cantidadExistencia += $cantidad;
+            echo "Inventario actualizado. Hay " . $this->cantidadExistencia . " unidades de " . $this->nombreArticulo;
+        } else {
+            echo "Cantidad inválida.";
+        }
+    }
 }
 
 ?>

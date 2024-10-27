@@ -1,5 +1,8 @@
 <?php
 
+require_once 'Carrito.php';
+require_once 'DetallesFactura.php';
+
 class Factura {
     private $numeroFactura;
     private $fechaEmision;
@@ -48,38 +51,47 @@ class Factura {
         return $this->detallesFactura;
     }
 
-    // Métodos
-    public function generarFactura($detallesFactura) { 
-        // Lógica para generar la factura (ej. calcular totales, imprimir)
-        $this->detallesFactura = $detallesFactura; 
+    // Método para generar la factura a partir de un carrito
+    public function generarFacturaDesdeCarrito(Carrito $carrito) {
+        foreach ($carrito->getArticulos() as $codigoArticulo => $cantidad) {
+            $articulo = obtenerArticuloPorCodigo($codigoArticulo);
+            if ($articulo) {
+                // Obtener el precio unitario y el nombre del artículo
+                $precioUnitario = $articulo->getPrecio();
+                $nombreArticulo = $articulo->getNombreArticulo();
+
+                // Crear el DetalleFactura con la información necesaria
+                $detalle = new DetallesFactura($cantidad, $precioUnitario, $nombreArticulo); 
+
+                $this->agregarDetalle($detalle); 
+            }
+        }
+        $carrito->setDetalleFactura($detalle); // Asignar el último detalle al carrito
         $this->calcularTotales();
-        $this->imprimirFactura();
     }
 
-    public function verFactura() { 
-        // Lógica para mostrar la factura (ej. generar un PDF)
-        // ... implementación para generar PDF ...
-        echo "Mostrando la factura en formato PDF..."; 
+    // Método para agregar un detalle a la factura
+    public function agregarDetalle(DetallesFactura $detalle) {
+        $this->detallesFactura[] = $detalle;
     }
 
     // Método auxiliar para calcular los totales de la factura
     private function calcularTotales() {
         foreach ($this->detallesFactura as $detalle) {
-            $this->subTotal += $detalle->getArticulo()->getPrecio() * $detalle->getCantidad();
+            $this->subTotal += $detalle->getPrecioUnitario() * $detalle->getCantidad();
         }
         $this->impuestos = $this->subTotal * 0.15; // Ejemplo: 15% de impuestos
         $this->total = $this->subTotal + $this->impuestos;
     }
 
-    // Método auxiliar para imprimir la factura en formato legible (ejemplo)
-    private function imprimirFactura() {
+    // Método para mostrar la factura (puedes modificarlo para generar un PDF)
+    public function verFactura() { 
         echo "Factura #" . $this->numeroFactura . "\n";
         echo "Fecha: " . $this->fechaEmision->format('Y-m-d') . "\n";
         echo "--------------------\n";
         foreach ($this->detallesFactura as $detalle) {
-            $articulo = $detalle->getArticulo();
-            echo $articulo->getNombreArticulo() . " x " . $detalle->getCantidad() . " - $" 
-                 . $articulo->getPrecio() * $detalle->getCantidad() . "\n";
+            echo $detalle->getNombreArticulo() . " x " . $detalle->getCantidad() . " - $" 
+                 . $detalle->getPrecioUnitario() * $detalle->getCantidad() . "\n";
         }
         echo "--------------------\n";
         echo "Subtotal: $" . $this->subTotal . "\n";
