@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion de Categorías - Rincon del Coleccionista</title>
+    <link rel="stylesheet" href="categorias.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="Logo El Rincón del Coleccionista">
+        </div>
+        <h1>Gestion de Categorías</h1>
+    </header>
+
+    <br>
+
+    <div class="container">
+
+        <!-- Formulario para Agregar una Categoría -->
+        <div class="form-container">
+            <h2>Agregar Categoría</h2>
+            <form id="agregarCategoria">
+                <label for="idCategoria">Id:</label>
+                <input type="text" id="idCategoria" name="idCategoria" required>
+
+                <label for="nombreCategoria">Nombre:</label>
+                <input type="text" id="nombreCategoria" name="nombreCategoria" required>
+
+                <label for="descripcion">Descripción:</label>
+                <textarea id="descripcion" name="descripcion" required></textarea>
+
+                <button type="button" onclick="agregarCategoria()">Agregar Categoría</button>
+            </form>
+        </div>
+
+        <!-- Formulario para Eliminar una Categoría -->
+        <div class="form-container">
+            <h2>Eliminar Categoría</h2>
+            <form id="eliminarCategoria">
+                <label for="idEliminar">Id de la Categoría a Eliminar:</label>
+                <input type="text" id="idCategoria" name="idCategoria" required>
+
+                <button type="button" onclick="eliminarCategoria()">Eliminar Categoría</button>
+            </form>
+        </div>
+
+        <!-- Formulario para Actualizar una Categoría -->
+        <div class="form-container">
+            <h2>Actualizar Categoría</h2>
+            <form id="actualizarCategoria">
+                <label for="idActualizar">Id:</label>
+                <input type="text" id="idActualizar" name="idActualizar" required>
+
+                <label for="nombreActualizar">Nuevo Nombre:</label>
+                <input type="text" id="nombreActualizar" name="nombreActualizar" required>
+
+                <label for="descripcionActualizar">Nueva Descripción:</label>
+                <textarea id="descripcionActualizar" name="descripcionActualizar" required></textarea>
+
+                <button type="button" onclick="actualizarCategoria()">Actualizar Categoría</button>
+            </form>
+        </div>
+
+        <!-- Tabla de Categorías -->
+        <h2>Lista de Categorías</h2>
+        <table id="tablaCategorias">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Filas dinámicas serán agregadas aquí -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
