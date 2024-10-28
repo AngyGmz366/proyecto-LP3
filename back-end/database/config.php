@@ -1,6 +1,6 @@
 <?php
 class Database {
-    private $host = "127.0.0.1";
+    private $host = "192.168.1.44";
     private $usuario = "Grupo2";
     private $contraseña = "Grupo_2_2024";
     private $nombre_base_datos = "tiendaonline";
@@ -14,7 +14,7 @@ class Database {
     // Método para realizar la conexión a la base de datos
     private function conectar() {
         $this->conexion = new mysqli($this->host, $this->usuario, $this->contraseña, $this->nombre_base_datos);
-       
+
         if ($this->conexion->connect_error) {
             die("Error de conexión: " . $this->conexion->connect_error);
         }
