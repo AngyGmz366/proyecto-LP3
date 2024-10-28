@@ -1,8 +1,8 @@
 <?php
 class Database {
     private $host = "127.0.0.1";
-    private $usuario = "Grupo2";
-    private $contraseña = "Grupo_2_2024";
+    private $usuario = "root";
+    private $contraseña = "";
     private $nombre_base_datos = "tiendaonline";
     private $conexion;
 
