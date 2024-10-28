@@ -1,0 +1,103 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('/image/fotoInicio.png') no-repeat center center fixed;
+    background-size: cover;
+  }
+  
+  .overlay {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3); /* 30% de opacidad */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .register-box { /* Cambiado de .login-box a .register-box */
+    background-color: rgba(255, 255, 255, 0.2); /* Fondo blanco MUY transparente */ 
+    padding: 40px;
+    border-radius: 10px;
+    width: 400px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); 
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #170606; 
+    font-weight: 900; /* Iniciar sesión MÁS en negrita */
+    font-size: 2rem;
+  }
+  
+  .input-group {
+    margin-bottom: 20px;
+  }
+  
+  .input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #fff; /* Etiquetas blancas */
+    font-size: 1.1rem;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 15px;
+    font-size: 1rem;
+    border: 1px solid rgba(204, 204, 204, 0.5); /* Borde semi-transparente */
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.3); /* Fondo blanco MÁS transparente */ 
+    color: #333; /* Texto más oscuro */
+  }
+  
+  .input-group button {
+    width: 100%;
+    padding: 15px;
+    background-color: #f5f5dc;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #0f0505;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .input-group button:hover {
+    background-color: #e0e0c7;
+  }
+  
+  .login-link { /* Cambiado de .register-link a .login-link */
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .login-link a { /* Cambiado de .register-link a .login-link */
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .login-link a span { /* Cambiado de .register-link a .login-link  */
+    color: #0000FF; /* Color azul */
+    font-weight: bold;
+  }
+  
+  .login-link a { /* Cambiado de .register-link a .login-link */
+    text-decoration: none;
+    font-weight: bold;
+    color: #cc0000; /* Color de enlace más fuerte (rojo intenso) */ 
+  }
+  
+  .login-link a:hover { /* Cambiado de .register-link a .login-link */
+    text-decoration: underline;
+  }

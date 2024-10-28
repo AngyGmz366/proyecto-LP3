@@ -1,5 +1,39 @@
 <?php
 
+class Database {
+    private $host = "localhost";
+    private $usuario = "root";
+    private $contraseña = "";
+    private $nombre_base_datos = "tiendaonline";
+    private $conexion;
+
+    public function __construct() {
+        $this->conectar();
+    }
+
+    private function conectar() {
+        $this->conexion = new mysqli($this->host, $this->usuario, $this->contraseña, $this->nombre_base_datos);
+
+        if ($this->conexion->connect_error) {
+            die("Error de conexión: " . $this->conexion->connect_error);
+        }
+    }
+
+    public function getConexion() {
+        return $this->conexion;
+    }
+
+    public function cerrarConexion() {
+        if ($this->conexion) {
+            $this->conexion->close();
+        }
+    }
+
+    public function __destruct() {
+        $this->cerrarConexion();
+    }
+}
+
 class Usuario {
     private $nombreUsuario;
     private $apellidoUsuario;
@@ -13,7 +47,7 @@ class Usuario {
         $this->apellidoUsuario = $apellidoUsuario;
         $this->codigoUsuario = $codigoUsuario;
         $this->correo = $correo;
-        $this->contrasena = password_hash($contrasena, PASSWORD_DEFAULT); // Encriptar la contraseña
+        $this->contrasena = password_hash($contrasena, PASSWORD_DEFAULT); 
         $this->fechaRegistro = new DateTime(); 
     }
 
@@ -60,14 +94,13 @@ class Usuario {
     }
 
     public function setContrasena($contrasena) {
-        $this->contrasena = password_hash($contrasena, PASSWORD_DEFAULT); // Encriptar la contraseña
+        $this->contrasena = password_hash($contrasena, PASSWORD_DEFAULT); 
     }
 
-    // Métodos 
-    public function registrarUsuario() { 
+    // Métodos
+    public function registrarUsuario(Database $db) {  
         try {
-            $conn = new PDO("mysql:host=localhost;dbname=tu_base_de_datos", "tu_usuario", "tu_contraseña");
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $conn = $db->getConexion(); 
             $stmt = $conn->prepare("INSERT INTO usuarios (nombreUsuario, apellidoUsuario, codigoUsuario, correo, contrasena) 
             VALUES (:nombreUsuario, :apellidoUsuario, :codigoUsuario, :correo, :contrasena)");
             $stmt->bindParam(':nombreUsuario', $this->nombreUsuario);
@@ -76,64 +109,60 @@ class Usuario {
             $stmt->bindParam(':correo', $this->correo);
             $stmt->bindParam(':contrasena', $this->contrasena);
             $stmt->execute();
-            echo "Nuevo usuario creado exitosamente";
+            return true; // Registro exitoso
         } catch(PDOException $e) {
             echo "Error: " . $e->getMessage();
+            return false; // Error en el registro
         }
     }
 
-    public function eliminarUsuario($codigoUsuario) { 
+    public function eliminarUsuario(Database $db, $codigoUsuario) { 
         try {
-            $conn = new PDO("mysql:host=localhost;dbname=tu_base_de_datos", "tu_usuario", "tu_contraseña");
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $conn = $db->getConexion(); 
             $stmt = $conn->prepare("DELETE FROM usuarios WHERE codigoUsuario = :codigoUsuario");
             $stmt->bindParam(':codigoUsuario', $codigoUsuario);
             $stmt->execute();
-            echo "Usuario eliminado exitosamente";
+            return true; // Eliminación exitosa
         } catch(PDOException $e) {
             echo "Error: " . $e->getMessage();
+            return false; // Error en la eliminación
         }
     }
 
-    public function recuperarCuenta($codigoUsuario) { 
-        // Lógica para recuperar la cuenta de un usuario (ej. enviar correo electrónico)
-        // ...
+    public function recuperarCuenta($correo) { 
+        // Lógica para recuperar la cuenta (ej. enviar correo electrónico)
+        // ... Implementa la lógica aquí ...
     }
 
-    public function login($codigoUsuario, $contrasena) { 
+    public function login(Database $db, $codigoUsuario, $contrasena) { 
         try {
-            $conn = new PDO("mysql:host=localhost;dbname=tu_base_de_datos", "tu_usuario", "tu_contraseña");
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $conn = $db->getConexion(); 
             $stmt = $conn->prepare("SELECT * FROM usuarios WHERE codigoUsuario = :codigoUsuario");
             $stmt->bindParam(':codigoUsuario', $codigoUsuario);
             $stmt->execute();
             $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($usuario && password_verify($contrasena, $usuario['contrasena'])) {
-                // Iniciar sesión (guardar datos en variables de sesión)
                 session_start(); 
                 $_SESSION['codigoUsuario'] = $usuario['codigoUsuario'];
                 $_SESSION['nombreUsuario'] = $usuario['nombreUsuario']; 
-
-                // Redirigir al usuario a la página principal
-                header("Location: ../front-end/index.php"); 
-                exit(); // Detener la ejecución del script después de la redirección
+                return true; // Login exitoso
             } else {
-                echo "Codigo de usuario o contraseña incorrectos";
+                return false; // Credenciales incorrectas
             }
         } catch(PDOException $e) {
             echo "Error: " . $e->getMessage();
+            return false; // Error en el login
         }
     }
-
 
     public function contrasenaCorrecta($contrasena) { 
         return password_verify($contrasena, $this->contrasena);
     }
 
-    public function actualizarPerfil() { 
+    public function actualizarPerfil(Database $db) { 
         // Lógica para actualizar el perfil del usuario en la base de datos
-        // ...
+        // ... Implementa la lógica aquí ...
     }
 }
 
