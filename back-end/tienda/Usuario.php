@@ -110,8 +110,14 @@ class Usuario {
             $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($usuario && password_verify($contrasena, $usuario['contrasena'])) {
-                echo "Inicio de sesión exitoso";
-                // ... iniciar sesión (ej. con variables de sesión)
+                // Iniciar sesión (guardar datos en variables de sesión)
+                session_start(); 
+                $_SESSION['codigoUsuario'] = $usuario['codigoUsuario'];
+                $_SESSION['nombreUsuario'] = $usuario['nombreUsuario']; 
+
+                // Redirigir al usuario a la página principal
+                header("Location: ../front-end/index.php"); 
+                exit(); // Detener la ejecución del script después de la redirección
             } else {
                 echo "Codigo de usuario o contraseña incorrectos";
             }
@@ -119,6 +125,7 @@ class Usuario {
             echo "Error: " . $e->getMessage();
         }
     }
+
 
     public function contrasenaCorrecta($contrasena) { 
         return password_verify($contrasena, $this->contrasena);
