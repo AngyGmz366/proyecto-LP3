@@ -1,5 +1,5 @@
 <?php
-require_once 'Database.php';
+require_once 'Database';
 class Usuario {
     private $id_usuario_pk; 
     private $nombre_tienda;  
@@ -89,10 +89,10 @@ class Usuario {
         }
     }
 
-    public function recuperarCuenta($correo) { 
+   // public function recuperarCuenta($correo) { 
         // Lógica para recuperar la cuenta (ej. enviar correo electrónico)
         // ... Implementa la lógica aquí ...
-    }
+   // }
 
     public function login(Database $db, $correo, $contrasena) { // Usando "correo" para el login
         try {
@@ -120,9 +120,36 @@ class Usuario {
         return password_verify($contrasena, $this->contrasena);
     }
 
-    public function actualizarPerfil(Database $db) { 
-        // Lógica para actualizar el perfil del usuario en la base de datos
-        // ... Implementa la lógica aquí ...
+    public function actualizarPerfil(Database $db) {
+        // 1. Obtén los datos actualizados del usuario (de un formulario, por ejemplo)
+        $nombreTienda = $_POST['nombreTienda']; 
+        $apellidoUsuario = $_POST['apellidoUsuario'];
+        $correo = $_POST['correo'];
+        // ... obtener otros datos ...
+
+        // 2. Crea la consulta SQL con parámetros para evitar inyección SQL
+        $sql = "UPDATE usuarios SET nombre_tienda=?, apellido_usuario=?, correo=? WHERE id_usuario_pk=?"; 
+
+        // 3. Prepara la consulta
+        $stmt = $db->getConexion()->prepare($sql);
+        if (!$stmt) {
+            die("Error al preparar la consulta: " . $db->getConexion()->error);
+        }
+
+        // 4. Vincula los parámetros
+        $stmt->bind_param("sssi", $nombreTienda, $apellidoUsuario, $correo, $this->id_usuario_pk);
+
+        // 5. Ejecuta la consulta
+        if ($stmt->execute()) {
+            // Actualización exitosa
+            echo "Perfil actualizado correctamente.";
+        } else {
+            // Error en la actualización
+            echo "Error al actualizar el perfil: " . $stmt->error;
+        }
+
+        // 6. Cierra la sentencia
+        $stmt->close();
     }
 }
 
