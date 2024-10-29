@@ -1,67 +1,32 @@
 <?php
-
-class Database {
-    private $host = "localhost";
-    private $usuario = "root";
-    private $contraseña = "";
-    private $nombre_base_datos = "tiendaonline";
-    private $conexion;
-
-    public function __construct() {
-        $this->conectar();
-    }
-
-    private function conectar() {
-        $this->conexion = new mysqli($this->host, $this->usuario, $this->contraseña, $this->nombre_base_datos);
-
-        if ($this->conexion->connect_error) {
-            die("Error de conexión: " . $this->conexion->connect_error);
-        }
-    }
-
-    public function getConexion() {
-        return $this->conexion;
-    }
-
-    public function cerrarConexion() {
-        if ($this->conexion) {
-            $this->conexion->close();
-        }
-    }
-
-    public function __destruct() {
-        $this->cerrarConexion();
-    }
-}
-
+require_once 'Database.php';
 class Usuario {
-    private $nombreUsuario;
-    private $apellidoUsuario;
-    private $codigoUsuario;
+    private $id_usuario_pk; 
+    private $nombre_tienda;  
+    private $apellido_usuario; 
     private $correo;
     private $contrasena;
-    private $fechaRegistro;
+    private $fecha_registro; 
 
-    public function __construct($nombreUsuario, $apellidoUsuario, $codigoUsuario, $correo, $contrasena) {
-        $this->nombreUsuario = $nombreUsuario;
-        $this->apellidoUsuario = $apellidoUsuario;
-        $this->codigoUsuario = $codigoUsuario;
+    public function __construct($nombre_tienda, $apellido_usuario, $correo, $contrasena) {
+        $this->nombre_tienda = $nombre_tienda;
+        $this->apellido_usuario = $apellido_usuario;
         $this->correo = $correo;
         $this->contrasena = password_hash($contrasena, PASSWORD_DEFAULT); 
-        $this->fechaRegistro = new DateTime(); 
+        $this->fecha_registro = new DateTime(); 
     }
 
     // Getters
-    public function getNombreUsuario() {
-        return $this->nombreUsuario;
+    public function getIdUsuarioPk() {
+        return $this->id_usuario_pk;
+    }
+
+    public function getNombreTienda() {
+        return $this->nombre_tienda;
     }
 
     public function getApellidoUsuario() {
-        return $this->apellidoUsuario;
-    }
-
-    public function getCodigoUsuario() {
-        return $this->codigoUsuario;
+        return $this->apellido_usuario;
     }
 
     public function getCorreo() {
@@ -73,20 +38,16 @@ class Usuario {
     }
 
     public function getFechaRegistro() {
-        return $this->fechaRegistro;
+        return $this->fecha_registro;
     }
 
     // Setters
-    public function setNombreUsuario($nombreUsuario) {
-        $this->nombreUsuario = $nombreUsuario;
+    public function setNombreTienda($nombre_tienda) {
+        $this->nombre_tienda = $nombre_tienda;
     }
 
-    public function setApellidoUsuario($apellidoUsuario) {
-        $this->apellidoUsuario = $apellidoUsuario;
-    }
-
-    public function setCodigoUsuario($codigoUsuario) {
-        $this->codigoUsuario = $codigoUsuario;
+    public function setApellidoUsuario($apellido_usuario) {
+        $this->apellido_usuario = $apellido_usuario;
     }
 
     public function setCorreo($correo) {
@@ -101,31 +62,30 @@ class Usuario {
     public function registrarUsuario(Database $db) {  
         try {
             $conn = $db->getConexion(); 
-            $stmt = $conn->prepare("INSERT INTO usuarios (nombreUsuario, apellidoUsuario, codigoUsuario, correo, contrasena) 
-            VALUES (:nombreUsuario, :apellidoUsuario, :codigoUsuario, :correo, :contrasena)");
-            $stmt->bindParam(':nombreUsuario', $this->nombreUsuario);
-            $stmt->bindParam(':apellidoUsuario', $this->apellidoUsuario);
-            $stmt->bindParam(':codigoUsuario', $this->codigoUsuario);
+            $stmt = $conn->prepare("INSERT INTO usuarios (nombre_tienda, apellido_usuario, correo, contrasena) 
+            VALUES (:nombre_tienda, :apellido_usuario, :correo, :contrasena)");
+            $stmt->bindParam(':nombre_tienda', $this->nombre_tienda);
+            $stmt->bindParam(':apellido_usuario', $this->apellido_usuario);
             $stmt->bindParam(':correo', $this->correo);
             $stmt->bindParam(':contrasena', $this->contrasena);
             $stmt->execute();
-            return true; // Registro exitoso
+            return true; 
         } catch(PDOException $e) {
             echo "Error: " . $e->getMessage();
-            return false; // Error en el registro
+            return false; 
         }
     }
 
-    public function eliminarUsuario(Database $db, $codigoUsuario) { 
+    public function eliminarUsuario(Database $db, $id_usuario_pk) { 
         try {
             $conn = $db->getConexion(); 
-            $stmt = $conn->prepare("DELETE FROM usuarios WHERE codigoUsuario = :codigoUsuario");
-            $stmt->bindParam(':codigoUsuario', $codigoUsuario);
+            $stmt = $conn->prepare("DELETE FROM usuarios WHERE id_usuario_pk = :id_usuario_pk");
+            $stmt->bindParam(':id_usuario_pk', $id_usuario_pk);
             $stmt->execute();
-            return true; // Eliminación exitosa
+            return true; 
         } catch(PDOException $e) {
             echo "Error: " . $e->getMessage();
-            return false; // Error en la eliminación
+            return false; 
         }
     }
 
@@ -134,25 +94,25 @@ class Usuario {
         // ... Implementa la lógica aquí ...
     }
 
-    public function login(Database $db, $codigoUsuario, $contrasena) { 
+    public function login(Database $db, $correo, $contrasena) { // Usando "correo" para el login
         try {
             $conn = $db->getConexion(); 
-            $stmt = $conn->prepare("SELECT * FROM usuarios WHERE codigoUsuario = :codigoUsuario");
-            $stmt->bindParam(':codigoUsuario', $codigoUsuario);
+            $stmt = $conn->prepare("SELECT * FROM usuarios WHERE correo = :correo");
+            $stmt->bindParam(':correo', $correo);
             $stmt->execute();
             $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($usuario && password_verify($contrasena, $usuario['contrasena'])) {
                 session_start(); 
-                $_SESSION['codigoUsuario'] = $usuario['codigoUsuario'];
-                $_SESSION['nombreUsuario'] = $usuario['nombreUsuario']; 
-                return true; // Login exitoso
+                $_SESSION['id_usuario_pk'] = $usuario['id_usuario_pk'];
+                $_SESSION['nombre_tienda'] = $usuario['nombre_tienda']; 
+                return true; 
             } else {
-                return false; // Credenciales incorrectas
+                return false; 
             }
         } catch(PDOException $e) {
             echo "Error: " . $e->getMessage();
-            return false; // Error en el login
+            return false; 
         }
     }
 
