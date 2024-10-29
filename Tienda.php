@@ -35,7 +35,7 @@ class Tienda {
     }
 
     public function setTelefono($telefono) {
-        $this->telefono = $telefono;
+        $this->telefono = $telefono;
     }
 
     
