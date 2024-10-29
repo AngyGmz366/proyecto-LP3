@@ -18,18 +18,28 @@
         <!-- Carrito de compras -->
         <div class="carrito">
             <h2>Carrito</h2>
+            <button onclick="vaciarCarrito()">Vaciar Carrito</button>
             <table id="cart-table">
                 <thead>
                     <tr>
                         <th>Artículo</th>
                         <th>Cantidad</th>
                         <th>Precio</th>
+                        <th>Eliminar</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Los artículos se generarán dinámicamente con JavaScript -->
                 </tbody>
             </table>
+
+            <!-- Formulario para agregar productos -->
+            <div class="add-product-form">
+                <input type="text" id="new-product-name" placeholder="Nombre del producto">
+                <input type="number" id="new-product-quantity" placeholder="Cantidad" min="1" value="1">
+                <input type="number" id="new-product-price" placeholder="Precio" min="1">
+                <button onclick="agregarProducto()">Agregar Producto</button>
+            </div>
         </div>
 
         <!-- Factura -->
@@ -82,14 +92,16 @@
         // Función para renderizar los artículos en el carrito
         function renderCart() {
             const tbody = document.querySelector('#cart-table tbody');
+            tbody.innerHTML = ''; // Limpiar el contenido actual
             let subtotal = 0;
 
-            cartItems.forEach(item => {
+            cartItems.forEach((item, index) => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${item.name}</td>
                     <td>${item.quantity}</td>
                     <td>L${item.price}</td>
+                    <td><button onclick="eliminarProducto(${index})">🗑️</button></td>
                 `;
                 tbody.appendChild(row);
 
@@ -98,6 +110,37 @@
 
             document.getElementById('subtotal').value = `L${subtotal}`;
             document.getElementById('total').value = `L${subtotal}`;
+        }
+
+        // Función para agregar un nuevo producto
+        function agregarProducto() {
+            const name = document.getElementById('new-product-name').value;
+            const quantity = parseInt(document.getElementById('new-product-quantity').value);
+            const price = parseFloat(document.getElementById('new-product-price').value);
+
+            if (name && quantity > 0 && price > 0) {
+                cartItems.push({ name, quantity, price });
+                renderCart();
+
+                // Limpiar campos después de agregar
+                document.getElementById('new-product-name').value = '';
+                document.getElementById('new-product-quantity').value = '1';
+                document.getElementById('new-product-price').value = '';
+            } else {
+                alert('Por favor ingrese todos los datos del producto correctamente.');
+            }
+        }
+
+        // Función para eliminar un producto del carrito
+        function eliminarProducto(index) {
+            cartItems.splice(index, 1);
+            renderCart();
+        }
+
+        // Función para vaciar el carrito
+        function vaciarCarrito() {
+            cartItems.length = 0;
+            renderCart();
         }
 
         // Función para finalizar compra
