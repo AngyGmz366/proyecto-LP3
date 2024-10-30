@@ -10,7 +10,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: url('../image/fotoInicio.png') no-repeat center center fixed;
+    background: url('/image/login.png') no-repeat center center fixed;
     background-size: cover;
   }
   
