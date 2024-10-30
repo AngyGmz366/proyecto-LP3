@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Artículos - Administrador</title>
+    <title>Gestión de Artículos</title>
     <link rel="stylesheet" href="/css/articulos.css">
 </head>
 
 <body>
+
     <header>
         <div class="logo">
             <img src="/image/logo.png" alt="Logo El Rincón del Coleccionista">
         </div>
+        
         <h1>Gestión de Artículos</h1>
     </header>
+    
     <main>
-        <!-- Tabla de Artículos Existentes -->
-        <section id="tablaArticulos">
-            <h2>Artículos en Inventario</h2>
-            <table>
+        <section>
+            <h2>Lista de Artículos</h2>
+            <table id="tablaArticulos">
                 <thead>
                     <tr>
                         <th>Nombre</th>
@@ -27,30 +29,49 @@
                         <th>Precio</th>
                         <th>Cantidad</th>
                         <th>Categoría</th>
+                        <th>Imagen</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="listaArticulos">
-                    <!-- Artículos existentes se generarán aquí -->
+                <tbody>
+                    <!-- Filas generadas dinámicamente -->
                 </tbody>
             </table>
         </section>
 
-        <!-- Formulario para Agregar Artículo -->
-        <section id="formAgregar">
-            <h2>Agregar Artículo</h2>
-            <form onsubmit="agregarArticulo(event)">
-                <label>Nombre: <input type="text" id="nombreArticulo" required></label><br>
-                <label>Código: <input type="text" id="codigoArticulo" required></label><br>
-                <label>Descripción: <input type="text" id="descripcionArticulo" required></label><br>
-                <label>Precio: <input type="number" id="precioArticulo" required></label><br>
-                <label>Cantidad: <input type="number" id="cantidadArticulo" required></label><br>
-                <label>Categoría:
-                    <select id="categoriaArticulo" required>
-                        <!-- Las opciones se generan con JavaScript -->
-                    </select>
-                </label><br>
-                <button type="submit">Agregar</button>
+        <section>
+            <h2>Agregar Nuevo Artículo</h2>
+            <form id="formArticulo">
+                <label for="nombreArticulo">Nombre:</label>
+                <input type="text" id="nombreArticulo" required>
+
+                <label for="codigoArticulo">Código:</label>
+                <input type="text" id="codigoArticulo" required>
+
+                <label for="descripcion">Descripción:</label>
+                <input type="text" id="descripcion" required>
+
+                <label for="precio">Precio:</label>
+                <input type="number" id="precio" required>
+
+                <label for="cantidadExistencia">Cantidad:</label>
+                <input type="number" id="cantidadExistencia" required>
+
+                <label for="categoria">Categoría:</label>
+		<select id="categoria" required>
+    		<option value="">Seleccionar</option>
+    		<option value="Juguetes">Juguetes</option>
+    		<option value="Figuras">Figuras</option>
+    		<option value="Comics">Comics</option>
+    		<option value="Posters">Posters</option>
+		</select>
+
+
+                <label for="fotografiaArticulo">Fotografía:</label>
+                <input type="file" id="fotografiaArticulo" accept="image/*" required>
+                <img id="preview" style="display: none; margin-top: 10px;">
+
+                <button type="button" onclick="agregarArticulo()">Agregar Artículo</button>
             </form>
         </section>
     </main>

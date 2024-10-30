@@ -1,4 +1,4 @@
-/* Estilos generales */
+/* Estilos Generales */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
@@ -18,7 +18,7 @@ header {
     max-width: 80px;
     position: absolute;
     left: 20px;
-    top: 25px;
+    top: 10px;
 }
 
 main {
@@ -30,7 +30,64 @@ main {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilos para la tabla de artículos */
+/* Estilos del Formulario */
+form {
+    margin-top: 20px;
+}
+
+form label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="number"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 5px 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form input[type="file"] {
+    margin-top: 5px;
+}
+
+form img#preview {
+    display: block;
+    width: 100px;
+    height: auto;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+form button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #45a049;
+}
+
+form select {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 5px 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+
+/* Table Styles */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -56,69 +113,25 @@ table tr:hover {
     background-color: #f1f1f1;
 }
 
-/* Estilos de formularios */
-section h2 {
-    color: black;
-    border-bottom: 2px solid #4CAF50;
-    padding-bottom: 0.5em;
-}
-
-form {
-    margin-top: 20px;
-}
-
-form label {
-    display: block;
-    margin: 10px 0 5px;
-    font-weight: bold;
-}
-
-form input[type="text"],
-form input[type="number"],
-form select {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin: 5px 0 15px;
-    border: 1px solid #ccc;
+table td img {
+    width: 50px;
+    height: auto;
     border-radius: 4px;
 }
 
-form button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
+button.action-btn {
+    padding: 5px 10px;
+    margin: 2px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    color: white;
 }
 
-form button:hover {
-    background-color: #45a049;
-}
-
-/* Estilos para los botones de acción */
-button.eliminar {
+button.delete-btn {
     background-color: #e74c3c;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
 }
 
-button.eliminar:hover {
-    background-color: #c0392b;
-}
-
-button.agregar {
-    background-color: #4CAF50;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-button.agregar:hover {
-    background-color: #45a049;
+button.stock-btn {
+    background-color: #3498db;
 }
