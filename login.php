@@ -1,20 +1,26 @@
 <?php
 require_once 'DAOUsuario.php';
+require_once 'BD/Usuario.php';
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $correo = $_POST['correo'];
-    $contrasena = $_POST['contrasena'];
-    $daoUsuario = new DAOUsuario();
-    $usuario = $daoUsuario->verificarCredenciales($correo, $contrasena);
-
-    if ($usuario) {
-        $_SESSION['usuario'] = $usuario;
-        $_SESSION['mensaje_bienvenida'] = "Bienvenido, " . $usuario->getNombreTienda() . "!";
-        header('Location: index.php');
-        exit();
+    $correo = isset($_POST['correo']) ? $_POST['correo'] : '';
+    $contrasena = isset($_POST['contrasena']) ? $_POST['contrasena'] : '';
+    
+    if (empty($correo) || empty($contrasena)) {
+        $error = "Por favor, complete todos los campos.";
     } else {
-        $error = "Correo o contraseña incorrectos";
+        $daoUsuario = new DAOUsuario();
+        $usuario = $daoUsuario->verificarCredenciales($correo, $contrasena);
+
+        if ($usuario) {
+            $_SESSION['usuario'] = $usuario;
+            $_SESSION['mensaje_bienvenida'] = "Bienvenido, " . $usuario->getNombreTienda() . "!";
+            header('Location: index.php');
+            exit();
+        } else {
+            $error = "Correo o contraseña incorrectos";
+        }
     }
 }
 ?>
@@ -32,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="overlay">
         <div class="login-box">
             <h2>Iniciar Sesión</h2>
-            <form action="login.php" method="POST">
+            <form id="loginForm" action="login.php" method="POST" onsubmit="return validateForm()">
                 <div class="input-group">
                     <label for="correo">Correo Electrónico</label>
                     <input type="email" id="correo" name="correo" required>
@@ -53,6 +59,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </form>
         </div>
     </div>
+
+    <script>
+        function validateForm() {
+            var correo = document.getElementById('correo').value;
+            var contrasena = document.getElementById('contrasena').value;
+
+            if (correo === '' || contrasena === '') {
+                alert('Por favor, complete todos los campos.');
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 </body>
 </html>
-

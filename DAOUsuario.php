@@ -25,36 +25,46 @@ class DAOUsuario {
         $correo = $this->conect->real_escape_string($correo);
         $query = "SELECT * FROM tbl_usuario WHERE correo = '$correo'";
         $resultado = $this->conect->query($query);
+    
         if ($resultado->num_rows == 1) {
             $fila = $resultado->fetch_assoc();
-            if (password_verify($contrasena, $fila['contrasena'])) {
+            if (isset($fila['contraseña']) && password_verify($contrasena, $fila['contraseña'])) {
                 $this->desconectar();
                 return new Usuario(
                     $fila['id_usuario_pk'],
                     $fila['nombre_tienda'],
                     $fila['apellido_usuario'],
                     $fila['correo'],
-                    $fila['contrasena'],
+                    $fila['contraseña'],
                     $fila['fecha_registro']
                 );
             }
         }
+    
         $this->desconectar();
         return null;
     }
+    
+    
 
     public function crearUsuario($usuario) {
         $this->conectar();
         $nombre_tienda = $this->conect->real_escape_string($usuario->getNombreTienda());
         $apellido_usuario = $this->conect->real_escape_string($usuario->getApellidoUsuario());
         $correo = $this->conect->real_escape_string($usuario->getCorreo());
-        $contrasena = $this->conect->real_escape_string($usuario->getContrasena());
-        $contrasena_hashed = password_hash($contrasena, PASSWORD_DEFAULT);
+        $contraseña = $usuario->getContrasena();
         $fecha_registro = $this->conect->real_escape_string($usuario->getFechaRegistro()->format('Y-m-d H:i:s'));
-        $query = "INSERT INTO tbl_usuario (nombre_tienda, apellido_usuario, correo, contrasena, fecha_registro) VALUES ('$nombre_tienda', '$apellido_usuario', '$correo', '$contrasena_hashed', '$fecha_registro')";
-        $resultado = $this->conect->query($query);
-        $this->desconectar();
-        return $resultado === TRUE;
+    
+        $query = "INSERT INTO tbl_usuario (nombre_tienda, apellido_usuario, correo, contraseña, fecha_registro) VALUES ('$nombre_tienda', '$apellido_usuario', '$correo', '$contraseña', '$fecha_registro')";
+    
+        if ($this->conect->query($query) === TRUE) {
+            $this->desconectar();
+            return true;
+        } else {
+            $error_message = "Error al registrar el usuario: " . $this->conect->error;
+            $this->desconectar();
+            throw new Exception($error_message);
+        }
     }
 
     public function obtenerTodosLosUsuarios() {
@@ -69,7 +79,7 @@ class DAOUsuario {
                     $fila['nombre_tienda'],
                     $fila['apellido_usuario'],
                     $fila['correo'],
-                    $fila['contrasena'],
+                    $fila['contraseña'],
                     $fila['fecha_registro']
                 );
             }
@@ -90,7 +100,7 @@ class DAOUsuario {
                 $fila['nombre_tienda'],
                 $fila['apellido_usuario'],
                 $fila['correo'],
-                $fila['contrasena'],
+                $fila['contraseña'],
                 $fila['fecha_registro']
             );
             $this->desconectar();
@@ -109,7 +119,7 @@ class DAOUsuario {
         $correo = $this->conect->real_escape_string($usuario->getCorreo());
         $contrasena = $this->conect->real_escape_string($usuario->getContrasena());
         $contrasena_hashed = password_hash($contrasena, PASSWORD_DEFAULT);
-        $query = "UPDATE tbl_usuario SET nombre_tienda='$nombre_tienda', apellido_usuario='$apellido_usuario', correo='$correo', contrasena='$contrasena_hashed' WHERE id_usuario_pk='$id_usuario_pk'";
+        $query = "UPDATE tbl_usuario SET nombre_tienda='$nombre_tienda', apellido_usuario='$apellido_usuario', correo='$correo', contraseña='$contrasena_hashed' WHERE id_usuario_pk='$id_usuario_pk'";
         $resultado = $this->conect->query($query);
         $this->desconectar();
         return $resultado === TRUE;
