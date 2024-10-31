@@ -5,7 +5,7 @@
 <title>EL RINCON DEL COLECCIONISTA</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link href="/Proyecto-LP3/css/layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+<link href="http://localhost/proyecto-LP3/css/layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
 </head>
 <body id="top">
 
@@ -25,7 +25,7 @@
 
 
 
-<div class="bgded" style="background-image:url('images/fotoInicio.png');"> 
+<div class="bgded" style="background-image:url('http://localhost/proyecto-LP3/images/fotoInicio.png');"> 
   
   <div class="wrapper row1">
     <header id="header" class="hoc clear">
@@ -49,7 +49,7 @@
     </header>
   </div>
  
-  <div class="wrapper bgded overlay" style="background-image: url('/Proyecto-LP3/image/fotoInicio.png');">
+  <div class="wrapper bgded overlay" style="background-image: url('http://localhost/proyecto-LP3/image/fotoInicio.png');">
     <div id="pageintro" class="hoc clear"> 
       
       <article>
@@ -72,7 +72,7 @@
     <section id="introblocks">
       <ul class="nospace group btmspace-80">
         <li class="one_third first">
-          <figure><a class="imgover" href="#"><img src="/Proyecto-LP3/image/04.png" alt=""></a>
+          <figure><a class="imgover" href="#"><img src="http://localhost/proyecto-LP3/image/04.png" alt=""></a>
             <figcaption>
               <h6 class="heading">Que somos?</h6>
               <div>
@@ -82,7 +82,7 @@
           </figure>
         </li>
         <li class="one_third">
-          <figure><a class="imgover" href="#"><img src="/Proyecto-LP3/image/03.png" alt=""></a>
+          <figure><a class="imgover" href="#"><img src="http://localhost/proyecto-LP3/image/03.png" alt=""></a>
             <figcaption>
               <h6 class="heading">Que ofrecemos?</h6>
               <div>
@@ -92,7 +92,7 @@
           </figure>
         </li>
         <li class="one_third">
-          <figure><a class="imgover" href="#"><img src="/Proyecto-LP3/image/02.png" alt=""></a>
+          <figure><a class="imgover" href="#"><img src="http://localhost/proyecto-LP3/image/02.png" alt=""></a>
             <figcaption>
               <h6 class="heading">Tu coleccion </h6>
               <div>
@@ -143,7 +143,7 @@
 </div>
 
 
-<div class="wrapper bgded overlay" style="background-image: url('/Proyecto-LP3/image/fotoInicio.png');">
+<div class="wrapper bgded overlay" style="background-image: url('http://localhost/proyecto-LP3/image/fotoInicio.png');">
   
   <section id="testimonials" class="hoc container clear"> 
     
