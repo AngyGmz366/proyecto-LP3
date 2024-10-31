@@ -1,6 +1,6 @@
 <?php
 require_once 'DAOUsuario.php';
-require_once 'BD/Usuario.php';
+require_once 'BD/usuario.php';
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($usuario) {
             $_SESSION['usuario'] = $usuario;
             $_SESSION['mensaje_bienvenida'] = "Bienvenido, " . $usuario->getNombreTienda() . "!";
-            header('Location: index.php');
+            header('Location: home.php');
             exit();
         } else {
             $error = "Correo o contraseña incorrectos";

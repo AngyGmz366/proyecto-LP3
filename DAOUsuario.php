@@ -1,6 +1,6 @@
 <?php
 require_once 'BD/informacion.php';
-require_once 'BD/Usuario.php';
+require_once 'BD/usuario.php';
 
 class DAOUsuario {
     private $conect;
@@ -28,8 +28,14 @@ class DAOUsuario {
     
         if ($resultado->num_rows == 1) {
             $fila = $resultado->fetch_assoc();
-            if (isset($fila['contraseña']) && password_verify($contrasena, $fila['contraseña'])) {
+            echo "Hash en BD: " . $fila['contraseña'] . "<br>";
+            echo "Contraseña ingresada: " . $contrasena . "<br>";
+            
+            if (password_verify($contrasena, $fila['contraseña'])) {
+                echo "¡Verificación de contraseña exitosa!<br>";
                 $this->desconectar();
+                
+                // Retornar el objeto Usuario si la verificación es exitosa
                 return new Usuario(
                     $fila['id_usuario_pk'],
                     $fila['nombre_tienda'],
@@ -38,12 +44,17 @@ class DAOUsuario {
                     $fila['contraseña'],
                     $fila['fecha_registro']
                 );
+            } else {
+                echo "Error: La contraseña no coincide.<br>";
             }
+        } else {
+            echo "Error: Usuario no encontrado o múltiples usuarios con el mismo correo.<br>";
         }
     
         $this->desconectar();
         return null;
     }
+    
     
     
 

@@ -37,11 +37,11 @@
       <nav id="mainav" class="fl_right"> 
        
         <ul class="clear">
-          <li class="active"><a href="home.html">inicio</a></li>
+          <li class="active"><a href="home.php">inicio</a></li>
           <li class="active"><a href="index.html">Producto</a></li>
           </li>
           <li class="active"><a href="index.html">Categorias</a></li>
-          <li class="active"><a href="login.php">Iniciar sesion</a></li>
+          <li class="active"><a href="logout.php">Cerrar sesion</a></li>
           
         </ul>
        

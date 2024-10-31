@@ -1,5 +1,5 @@
 <?php
 // Redirigir a home.php
-header("Location: home.php");
+header("Location: login.php");
 exit;
 ?>
