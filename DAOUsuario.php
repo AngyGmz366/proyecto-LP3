@@ -29,9 +29,10 @@ class DAOUsuario {
         if ($resultado->num_rows == 1) {
             $fila = $resultado->fetch_assoc();
             echo "Hash en BD: " . $fila['contraseña'] . "<br>";
-            echo "Contraseña ingresada: " . $contrasena . "<br>";
-            
-            if (password_verify($contrasena, $fila['contraseña'])) {
+            echo "Contraseña ingresada: " .$contrasena." ". md5($contrasena) . "<br>";
+            $hashedPassword = password_hash($contrasena, PASSWORD_DEFAULT);
+           // if (password_verify($hashedPassword, $fila['contraseña'])) {
+           if (md5($contrasena)==$fila['contraseña']){
                 echo "¡Verificación de contraseña exitosa!<br>";
                 $this->desconectar();
                 

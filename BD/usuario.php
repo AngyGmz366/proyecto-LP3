@@ -31,7 +31,7 @@ class Usuario {
         $this->nombre_tienda = $nombre_tienda;
         $this->apellido_usuario = $apellido_usuario;
         $this->correo = $correo;
-        $this->contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
+        $this->contrasena = $contrasena;
         $this->fecha_registro = $fecha_registro ? $fecha_registro : new DateTime();
     }
 
