@@ -44,12 +44,8 @@ class DAOUsuario {
                     $fila['contraseña'],
                     $fila['fecha_registro']
                 );
-            } else {
-                echo "Error: La contraseña no coincide.<br>";
-            }
-        } else {
-            echo "Error: Usuario no encontrado o múltiples usuarios con el mismo correo.<br>";
-        }
+            } 
+        } 
     
         $this->desconectar();
         return null;
@@ -145,18 +141,7 @@ class DAOUsuario {
         return $resultado === TRUE;
     }
 
-    public function obtenerIdPerfilPorUsuario($id_usuario_pk) {
-        $this->conectar();
-        $query = "SELECT idPerfil FROM Perfiles WHERE id_usuario_pk = ?";
-        $stmt = $this->conect->prepare($query);
-        $stmt->bind_param('i', $id_usuario_pk);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        $this->desconectar();
-        return $row['idPerfil'] ?? null;
-    }
-
+    
     public function ejecutarConsulta($sql, $params) {
         $this->conectar();
         $stmt = $this->conect->prepare($sql);
