@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-10-2024 a las 02:50:02
+-- Tiempo de generación: 01-11-2024 a las 06:03:54
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -127,6 +127,18 @@ CREATE TABLE `tbl_factura` (
   `total` float NOT NULL,
   `numero_factura` int(11) NOT NULL,
   `id_venta_fk` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_imagenes_articulos`
+--
+
+CREATE TABLE `tbl_imagenes_articulos` (
+  `id_imagenes_articulos_pk` int(11) NOT NULL,
+  `url_imagen` varchar(300) NOT NULL,
+  `id_articulo_fk` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -272,6 +284,13 @@ ALTER TABLE `tbl_factura`
   ADD KEY `fk_tbl_factura_tbl_venta_idx` (`id_venta_fk`);
 
 --
+-- Indices de la tabla `tbl_imagenes_articulos`
+--
+ALTER TABLE `tbl_imagenes_articulos`
+  ADD PRIMARY KEY (`id_imagenes_articulos_pk`),
+  ADD KEY `fk_tbl_imagenes_articulos_tbl_articulos_idx` (`id_articulo_fk`) USING BTREE;
+
+--
 -- Indices de la tabla `tbl_log`
 --
 ALTER TABLE `tbl_log`
@@ -364,6 +383,12 @@ ALTER TABLE `tbl_factura`
   MODIFY `id_factura_pk` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `tbl_imagenes_articulos`
+--
+ALTER TABLE `tbl_imagenes_articulos`
+  MODIFY `id_imagenes_articulos_pk` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `tbl_log`
 --
 ALTER TABLE `tbl_log`
@@ -443,6 +468,12 @@ ALTER TABLE `tbl_empleado`
 --
 ALTER TABLE `tbl_factura`
   ADD CONSTRAINT `fk_tbl_factuta_tbl_venta` FOREIGN KEY (`id_venta_fk`) REFERENCES `tbl_venta` (`id_venta_pk`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `tbl_imagenes_articulos`
+--
+ALTER TABLE `tbl_imagenes_articulos`
+  ADD CONSTRAINT `fk_tbl_imagenes_articulos_tbl_articulos` FOREIGN KEY (`id_articulo_fk`) REFERENCES `tbl_articulo` (`id_articulo_pk`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tbl_log`
