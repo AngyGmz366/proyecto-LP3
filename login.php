@@ -3,17 +3,12 @@ require_once 'DAOUsuario.php';
 require_once 'BD/usuario.php';
 session_start();
 
-header('Content-Type: application/json'); // Indica que la respuesta es JSON
-
-$response = []; // Array para guardar la respuesta
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $correo = isset($_POST['correo']) ? $_POST['correo'] : '';
     $contrasena = isset($_POST['contrasena']) ? $_POST['contrasena'] : '';
-
+    
     if (empty($correo) || empty($contrasena)) {
-        $response['success'] = false;
-        $response['message'] = "Por favor, complete todos los campos.";
+        $error = "Por favor, complete todos los campos.";
     } else {
         $daoUsuario = new DAOUsuario();
         $usuario = $daoUsuario->verificarCredenciales($correo, $contrasena);
@@ -21,22 +16,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($usuario) {
             $_SESSION['usuario'] = $usuario;
             $_SESSION['mensaje_bienvenida'] = "Bienvenido, " . $usuario->getNombreTienda() . "!";
-
-            $response['success'] = true;
-            $response['redirect'] = ($correo === 'admin1@u') ? 'homeEmpleados.php' : 'home.php';
+            // Verifica si el usuario es el administrador
+            if ($correo === 'admin1@u') { 
+                header('Location: homeEmpleados.php'); // Redirige al administrador a su página
+                exit();
+            } else {
+                header('Location: home.php'); // Redirige a los clientes a su página
+                exit();
+            }
         } else {
-            $response['success'] = false;
-            $response['message'] = "Correo o contraseña incorrectos";
+            $error = "Correo o contraseña incorrectos";
         }
     }
-} else {
-    $response['success'] = false;
-    $response['message'] = "Método de solicitud no permitido";
 }
-
-echo json_encode($response);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="es">
@@ -82,41 +75,30 @@ echo json_encode($response);
     </div>
 
     <script>
-        async function handleSubmit(event) {
-    event.preventDefault(); // Evita que el formulario se envíe de inmediato
+        function handleSubmit(event) {
+            event.preventDefault(); // Evita que el formulario se envíe de inmediato
 
-    const correo = document.getElementById('correo').value;
-    const contrasena = document.getElementById('contrasena').value;
+            var correo = document.getElementById('correo').value;
+            var contrasena = document.getElementById('contrasena').value;
 
-    if (correo === '' || contrasena === '') {
-        Swal.fire('Error', 'Por favor, complete todos los campos.', 'error');
-        return;
-    }
+            if (correo === '' || contrasena === '') {
+                Swal.fire('Error', 'Por favor, complete todos los campos.', 'error');
+                return false;
+            }
 
-    // Enviar datos al servidor con fetch
-    const response = await fetch('login.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ correo, contrasena })
-    });
+            // Mostrar alerta de éxito
+            Swal.fire({
+                title: 'Sesión iniciada con éxito',
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('loginForm').submit(); // Enviar el formulario
+                }
+            });
 
-    const result = await response.json();
-
-    // Mostrar alerta dependiendo de la respuesta del servidor
-    if (result.success) {
-        Swal.fire({
-            title: 'Sesión iniciada con éxito',
-            icon: 'success',
-            confirmButtonText: 'Aceptar'
-        }).then(() => {
-            window.location.href = result.redirect; // Redirige a la página correspondiente
-        });
-    } else {
-        Swal.fire('Error', result.message, 'error');
-    }
-}
-
+            return false;
+        }
     </script>
 </body>
 </html>
-
