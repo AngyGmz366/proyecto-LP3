@@ -41,7 +41,8 @@ class DAOCategoria {
         $nombre_categoria = $this->conect->real_escape_string($categoria->getNombreCategoria());
         $descripcion = $this->conect->real_escape_string($categoria->getDescripcion());
 
-        $query = "INSERT INTO tbl_categoria (nombre_categoria, descripcion) VALUES ('$nombre_categoria', '$descripcion')";
+        $query = "INSERT INTO tbl_categoria (nombre_categoria, descripcion) 
+                  VALUES ('$nombre_categoria', '$descripcion')";
 
         $resultado = $this->conect->query($query);
         $this->desconectar();
@@ -76,7 +77,9 @@ class DAOCategoria {
         $nombre_categoria = $this->conect->real_escape_string($categoria->getNombreCategoria());
         $descripcion = $this->conect->real_escape_string($categoria->getDescripcion());
 
-        $query = "UPDATE tbl_categoria SET nombre_categoria = '$nombre_categoria', descripcion = '$descripcion' WHERE id_categoria_pk = $id_categoria_pk";
+        $query = "UPDATE tbl_categoria 
+                  SET nombre_categoria = '$nombre_categoria', descripcion = '$descripcion' 
+                  WHERE id_categoria_pk = $id_categoria_pk";
 
         $resultado = $this->conect->query($query);
         $this->desconectar();
