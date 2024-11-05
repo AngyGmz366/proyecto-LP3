@@ -11,11 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($contrasena !== $confirmarContrasena) {
         $error = "Las contraseñas no coinciden.";
     } else {
-        // Hashear la contraseña antes de crear el usuario
-       // $hashedPassword = password_hash($contrasena, PASSWORD_DEFAULT);
-    
-        // Imprimir el hash para depuración
-        //echo "Hash generado en registro: " . $hashedPassword . "<br>";
+        
     
         $daoUsuario = new DAOUsuario();
         $usuario = new Usuario(null, $nombreUsuario, "", $correo, $angy);
@@ -38,12 +34,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Registro - Tienda en Línea</title>
     <link rel="stylesheet" href="./css/registro.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <!-- Incluir SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="overlay">
         <div class="register-box">
             <h2>Registro</h2>
-            <form action="registro.php" method="POST" onsubmit="return validarContraseña()">
+            <form action="registro.php" method="POST" onsubmit="return validarContraseña(event)">
                 <div class="input-group">
                     <label for="username">Usuario</label>
                     <input type="text" id="username" name="username" required>
@@ -73,15 +71,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
     <script>
-        function validarContraseña() {
+        function validarContraseña(event) {
+            event.preventDefault(); // Evita el envío inmediato del formulario
+
             var password = document.getElementById("password").value;
             var confirmPassword = document.getElementById("confirm-password").value;
-            if (password != confirmPassword) {
-                alert("Las contraseñas no coinciden.");
+
+            if (password !== confirmPassword) {
+                Swal.fire('Error', 'Las contraseñas no coinciden.', 'error');
                 return false;
             }
-            return true;
+
+            // Mostrar alerta de éxito
+            Swal.fire({
+                title: 'Usuario registrado con éxito',
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    event.target.submit(); // Enviar el formulario
+                }
+            });
+
+            return false;
         }
     </script>
 </body>
 </html>
+
