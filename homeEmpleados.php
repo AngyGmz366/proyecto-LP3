@@ -34,8 +34,12 @@
                         <li class="active"><a href="home.php">Inicio</a></li>
                         <li class="active"><a href="index.html">Producto</a></li>
                         <li class="active"><a href="index.html">Categorías</a></li>
+                        <li class="active"><a href="clientes.php">Clientes</a></li>
+                        <li class="active"><a href="empleados.php">Empleados</a></li>
+                        <li class="active"><a href="perfil.php">Editar Perfil</a></li> 
+                        <li class="active"><a href="logs.php">Logs</a>
                         <li class="active"><a href="logout.php">Cerrar sesión</a></li>
-                        
+                        <li><a href="homeEnglish.html">Ingles</a></li>
                     </ul>
                 </nav>
             </header>

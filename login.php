@@ -16,8 +16,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($usuario) {
             $_SESSION['usuario'] = $usuario;
             $_SESSION['mensaje_bienvenida'] = "Bienvenido, " . $usuario->getNombreTienda() . "!";
-            header('Location: home.php');
-            exit();
+            // Verifica si el usuario es el administrador
+            if ($correo === 'admin1@u') { 
+                header('Location: homeEmpleados.php'); // Redirige al administrador a su página
+                exit();
+            } else {
+                header('Location: home.php'); // Redirige a los clientes a su página
+                exit();
+            }
         } else {
             $error = "Correo o contraseña incorrectos";
         }
