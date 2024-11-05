@@ -74,6 +74,26 @@ class DAOUsuario {
             throw new Exception($error_message);
         }
     }
+    
+    public function modificarUsuario($usuario) {
+        $this->conectar();
+        $id_usuario_pk = $this->conect->real_escape_string($usuario->getIdUsuarioPk());
+        $nombre_tienda = $this->conect->real_escape_string($usuario->getNombreTienda());
+        $apellido_usuario = $this->conect->real_escape_string($usuario->getApellidoUsuario());
+        $correo = $this->conect->real_escape_string($usuario->getCorreo());
+        $contrasena = $this->conect->real_escape_string($usuario->getContrasena());
+
+        $query = "UPDATE tbl_usuario SET nombre_tienda='$nombre_tienda', apellido_usuario='$apellido_usuario', correo='$correo', contrasena='$contrasena' WHERE id_usuario_pk='$id_usuario_pk'";
+
+        if ($this->conect->query($query) === TRUE) {
+            $this->desconectar();
+            return true;
+        } else {
+            $error_message = "Error al actualizar el usuario: " . $this->conect->error;
+            $this->desconectar();
+            throw new Exception($error_message);
+        }
+    }
 
     public function obtenerTodosLosUsuarios() {
         $this->conectar();

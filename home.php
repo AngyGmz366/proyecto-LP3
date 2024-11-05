@@ -25,7 +25,7 @@
         <div class="wrapper row1">
             <header id="header" class="hoc clear">
                 <div id="logo" class="fl_left"> 
-                    <img src="../image/fotoInicio.png" alt="Logo" style="height: 60px; vertical-align: middle;">
+                    <img src="../image/logo.png" alt="Logo" style="height: 60px; vertical-align: middle;">
                     <h1 style="display: inline; font-size: 14px; margin-left: 10px;">EL RINCON DEL COLECCIONISTA</h1>
                 </div>
                 <nav id="mainav" class="fl_right"> 
