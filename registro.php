@@ -11,11 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($contrasena !== $confirmarContrasena) {
         $error = "Las contraseñas no coinciden.";
     } else {
-        // Hashear la contraseña antes de crear el usuario
-       // $hashedPassword = password_hash($contrasena, PASSWORD_DEFAULT);
-    
-        // Imprimir el hash para depuración
-        //echo "Hash generado en registro: " . $hashedPassword . "<br>";
+        
     
         $daoUsuario = new DAOUsuario();
         $usuario = new Usuario(null, $nombreUsuario, "", $correo, $angy);

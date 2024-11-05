@@ -30,11 +30,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Tienda en Línea</title>
+    <title>Login - El Rincón del Coleccionista</title>
     <link rel="stylesheet" href="./css/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
 </head>
 <body>
+    <header>
+        <div class="header-container">
+            <h1 class="header-title">El Rincón del Coleccionista</h1> 
+            
+        </div>
+    </header>
     <div class="overlay">
         <div class="login-box">
             <h2>Iniciar Sesión</h2>
