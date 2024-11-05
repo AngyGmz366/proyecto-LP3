@@ -53,8 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="login-box">
             <h2>Iniciar Sesión</h2>
             <form id="loginForm" action="login.php" method="POST" onsubmit="return handleSubmit(event)">
-             <input type="hidden" id="errorMessage" value="<?php echo isset($error) ? $error : ''; ?>">
-             <div class="input-group">
+                <div class="input-group">
                     <label for="correo">Correo electrónico</label>
                     <input type="email" id="correo" name="correo" required>
                 </div>
@@ -77,34 +76,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <script>
         function handleSubmit(event) {
-    event.preventDefault(); // Evita que el formulario se envíe de inmediato
+            event.preventDefault(); // Evita que el formulario se envíe de inmediato
 
-    const correo = document.getElementById('correo').value;
-    const contrasena = document.getElementById('contrasena').value;
-    const errorMessage = document.getElementById('errorMessage').value;
+            var correo = document.getElementById('correo').value;
+            var contrasena = document.getElementById('contrasena').value;
 
-    if (correo === '' || contrasena === '') {
-        Swal.fire('Error', 'Por favor, complete todos los campos.', 'error');
-        return false;
-    }
+            if (correo === '' || contrasena === '') {
+                Swal.fire('Error', 'Por favor, complete todos los campos.', 'error');
+                return false;
+            }
 
-    if (errorMessage) { // Verifica si hay un error definido
-        Swal.fire('Error', errorMessage, 'error');
-        return false;
-    }
+            // Mostrar alerta de éxito
+            Swal.fire({
+                title: 'Sesión iniciada con éxito',
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('loginForm').submit(); // Enviar el formulario
+                }
+            });
 
-    // Si no hay errores, muestra mensaje de éxito y envía el formulario
-    Swal.fire({
-        title: 'Sesión iniciada con éxito',
-        icon: 'success',
-        confirmButtonText: 'Aceptar'
-    }).then(() => {
-        document.getElementById('loginForm').submit(); // Enviar el formulario
-    });
-
-    return false;
-}
-
+            return false;
+        }
     </script>
 </body>
 </html>
