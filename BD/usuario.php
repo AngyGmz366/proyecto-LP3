@@ -61,12 +61,20 @@ class Usuario {
     }
 
     // Setters
+    public function setIdUsuarioPk($id_usuario_pk) {
+        $this->id_usuario_pk = $id_usuario_pk;
+    }
+    
     public function setNombreTienda($nombre_tienda) {
         $this->nombre_tienda = $nombre_tienda;
     }
 
     public function setApellidoUsuario($apellido_usuario) {
         $this->apellido_usuario = $apellido_usuario;
+    }
+
+    public function setFechaRegistro($fecha_registro) {
+        $this->fecha_registro = $fecha_registro;
     }
 
     public function setCorreo($correo) {

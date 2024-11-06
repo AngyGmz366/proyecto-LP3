@@ -37,17 +37,12 @@ class DAOCliente {
         return $clientes;
     }
 
-    public function crearCliente($cliente) {
+    public function crearClienteConUsuario($membresia, $id_usuario_fk) {
         $this->conectar();
-        $membresia = $this->conect->real_escape_string($cliente->getMembresia());
-        $id_tienda_fk = $cliente->getIdTiendaFk();
-        $id_usuario_fk = $cliente->getIdUsuarioFk();
-
-        $query = "INSERT INTO tbl_cliente (membresia, id_tienda_fk, id_usuario_fk) VALUES ('$membresia', $id_tienda_fk, $id_usuario_fk)";
-
+        $membresia = $this->conect->real_escape_string($membresia);
+        $query = "INSERT INTO tbl_cliente (membresia, id_usuario_fk) VALUES ('$membresia', $id_usuario_fk)";
         $resultado = $this->conect->query($query);
         $this->desconectar();
-
         return $resultado === TRUE;
     }
 
@@ -97,5 +92,39 @@ class DAOCliente {
         $this->desconectar();
 
         return $resultado === TRUE;
+    }
+    public function getTablaClientes() {
+        $this->conectar();
+        $query = "SELECT * FROM tbl_cliente"; 
+        $result = $this->conect->query($query);
+        $tabla = "<table class='table table-striped'>
+                    <thead>
+                        <tr>
+                            <th>ID Cliente</th>
+                            <th>Membresía</th>
+                            <th>ID Tienda</th>
+                            <th>ID Usuario</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>";
+
+        if ($result->num_rows > 0) {
+            while ($fila = $result->fetch_assoc()) {
+                $tabla .= "<tr>
+                            <td>".$fila['id_cliente_pk']."</td>
+                            <td>".$fila['membresia']."</td>
+                            <td>".$fila['id_tienda_fk']."</td>
+                            <td>".$fila['id_usuario_fk']."</td>
+                            <td>
+                                <button class='btn btn-warning' onclick='cargar(".$fila['id_usuario_fk'].", \"".(isset($fila['nombre_tienda']) ? $fila['nombre_tienda'] : "")."\", \"".(isset($fila['correo']) ? $fila['correo'] : "")."\", \"".(isset($fila['fecha_registro']) ? $fila['fecha_registro'] : "")."\", ".$fila['id_cliente_pk'].", \"".$fila['membresia']."\", ".$fila['id_tienda_fk'].")'>Cargar</button> 
+                            </td>
+                        </tr>";
+            }
+        }
+
+        $tabla .= "</tbody></table>";
+        $this->desconectar();
+        return $tabla;
     }
 }

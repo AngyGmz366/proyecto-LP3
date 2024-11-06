@@ -2,6 +2,7 @@
 require_once 'BD/informacion.php';
 require_once 'BD/usuario.php';
 
+
 class DAOUsuario {
     private $conect;
 
@@ -81,9 +82,9 @@ class DAOUsuario {
         $nombre_tienda = $this->conect->real_escape_string($usuario->getNombreTienda());
         $apellido_usuario = $this->conect->real_escape_string($usuario->getApellidoUsuario());
         $correo = $this->conect->real_escape_string($usuario->getCorreo());
-        $contrasena = $this->conect->real_escape_string($usuario->getContrasena());
+        $contraseña = $usuario->getContrasena();
 
-        $query = "UPDATE tbl_usuario SET nombre_tienda='$nombre_tienda', apellido_usuario='$apellido_usuario', correo='$correo', contrasena='$contrasena' WHERE id_usuario_pk='$id_usuario_pk'";
+        $query = "UPDATE tbl_usuario SET nombre_tienda='$nombre_tienda', apellido_usuario='$apellido_usuario', correo='$correo', contrasena='$ $contraseña' WHERE id_usuario_pk='$id_usuario_pk'";
 
         if ($this->conect->query($query) === TRUE) {
             $this->desconectar();
@@ -145,13 +146,14 @@ class DAOUsuario {
         $nombre_tienda = $this->conect->real_escape_string($usuario->getNombreTienda());
         $apellido_usuario = $this->conect->real_escape_string($usuario->getApellidoUsuario());
         $correo = $this->conect->real_escape_string($usuario->getCorreo());
-        $contrasena = $this->conect->real_escape_string($usuario->getContrasena());
-        $contrasena_hashed = password_hash($contrasena, PASSWORD_DEFAULT);
-        $query = "UPDATE tbl_usuario SET nombre_tienda='$nombre_tienda', apellido_usuario='$apellido_usuario', correo='$correo', contraseña='$contrasena_hashed' WHERE id_usuario_pk='$id_usuario_pk'";
+    
+        $query = "UPDATE tbl_usuario SET nombre_tienda='$nombre_tienda', apellido_usuario='$apellido_usuario', correo='$correo' WHERE id_usuario_pk='$id_usuario_pk'";
+        
         $resultado = $this->conect->query($query);
         $this->desconectar();
         return $resultado === TRUE;
     }
+    
 
     public function eliminarUsuario($id_usuario_pk) {
         $this->conectar();
@@ -193,5 +195,61 @@ class DAOUsuario {
     public function obtenerUltimoIdInsertado() {
         return $this->conect->insert_id;
     }
+    public function getTabla(){
+        $this->conectar();
+        $sql = "SELECT * FROM tbl_usuario";
+        $res = $this->conect->query($sql);
+        $tabla = "<table class='table table-dark'>"
+                . "<thead class='thead thead-light'>";
+        $tabla .= "<tr><th>ID Usuario</th><th>Nombre de la tienda</th><th>Correo</th>"
+                ."<th>Fecha de registro</th><th>Acción</th>"
+                ."</tr></thead><tbody>";
+              
+        while($fila = mysqli_fetch_assoc($res)){
+            $tabla .= "<tr>"
+                ."<td>".$fila["id_usuario_pk"]."</td>"
+                ."<td>".$fila["nombre_tienda"]."</td>"
+                ."<td>".$fila["correo"]."</td>"
+                ."<td>".$fila["fecha_registro"]."</td>"
+                ."<td><a href=\"javascript:cargar('".$fila["id_usuario_pk"]."','".$fila["nombre_tienda"]
+                    ."','".$fila["correo"]."','".$fila["fecha_registro"]
+                    ."')\">Seleccionar</a></td>" 
+                ."</tr>";               
+        }
+        $tabla .="</tbody></table>";
+        $res->close();
+        $this->desconectar();                   
+        return $tabla;
+    }
+
+    public function filtrar($valor, $criterio){
+        $sql    =   "SELECT * FROM tbl_usuario WHERE $criterio LIKE '%$valor%'";
+        $this->conectar();                      
+        $res = $this->conect->query($sql);         
+        $tabla = "<table class='table table-dark'>"
+                . "<thead class='thead thead-light'>";
+        $tabla .= "<tr><th>ID Usuario</th><th>Nombre de la tienda</th><th>Correo</th>"
+                ."<th>Fecha de registro</th><th>Acción</th>"
+                ."</tr></thead><tbody>";
+              
+        while($fila = mysqli_fetch_assoc($res)){
+            $tabla .= "<tr>"
+                ."<td>".$fila["id_usuario_pk"]."</td>"
+                ."<td>".$fila["nombre_tienda"]."</td>"
+                ."<td>".$fila["correo"]."</td>"
+                ."<td>".$fila["fecha_registro"]."</td>"
+                ."<td><a href=\"javascript:cargar('".$fila["id_usuario_pk"]."','".$fila["nombre_tienda"]
+                    ."','".$fila["correo"]."','".$fila["fecha_registro"]
+                    ."')\">Seleccionar</a></td>" 
+                ."</tr>";               
+        }
+        $tabla .="</tbody></table>";
+        $res->close();
+        $this->desconectar();                   
+        return $tabla;
+    }
+   
+    
 }
+
 ?>

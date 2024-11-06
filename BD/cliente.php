@@ -6,12 +6,8 @@ class Cliente {
     private $id_usuario_fk;
 
     // Constructor
-    public function __construct($id_cliente_pk, $membresia, $id_tienda_fk, $id_usuario_fk) {
-        $this->id_cliente_pk = $id_cliente_pk;
-        $this->membresia = $membresia;
-        $this->id_tienda_fk = $id_tienda_fk;
-        $this->id_usuario_fk = $id_usuario_fk;
-    }
+    
+    public function __construct() {} // Constructor vacío
 
     // Getters
     public function getIdClientePk() {

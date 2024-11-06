@@ -40,8 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="./css/login.css">
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-    <!-- Incluir SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   
 </head>
 <body>
     <header>
@@ -85,17 +84,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 Swal.fire('Error', 'Por favor, complete todos los campos.', 'error');
                 return false;
             }
-
-            // Mostrar alerta de éxito
-            Swal.fire({
-                title: 'Sesión iniciada con éxito',
-                icon: 'success',
-                confirmButtonText: 'Aceptar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('loginForm').submit(); // Enviar el formulario
-                }
-            });
+             // Enviar el formulario
+               document.getElementById('loginForm').submit(); 
 
             return false;
         }

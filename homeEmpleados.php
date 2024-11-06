@@ -21,20 +21,19 @@
         </div>
     </div>
 
-    <div class="bgded" style="background-image:url('..image/fotoInicio.png');">
+    <div class="bgded" style="background-image:url('./image/fotoInicio.png');">
         <div class="wrapper row1">
             <header id="header" class="hoc clear">
                 <div id="logo" class="fl_left"> 
-                    <img src="../image/logo.png" alt="Logo" style="height: 60px; vertical-align: middle;">
+                    <img src="./image/logo.png" alt="Logo" style="height: 60px; vertical-align: middle;">
                     <h1 style="display: inline; font-size: 14px; margin-left: 10px;">EL RINCON DEL COLECCIONISTA</h1>
                 </div>
                 <nav id="mainav" class="fl_right"> 
                     <ul class="clear">
                         <li><a href="homeEnglish.html">Ingles</a></li>
-                        <li class="active"><a href="homeEmpleados.php">Inicio</a></li>
                         <li class="active"><a href="index.html">Producto</a></li>
-                        <li class="active"><a href="index.html">Categorías</a></li>
-                        <li class="active"><a href="clientes.php">Clientes</a></li>
+                        <li class="active"><a href="Categoria.php">Categorías</a></li>
+                        <li class="active"><a href="Cliente.php">Clientes</a></li>
                         <li class="active"><a href="empleados.php">Empleados</a></li>
                         <li class="active"><a href="logs.php">Logs</a>
                         <li class="active"><a href="logout.php">Cerrar sesión</a></li>
@@ -44,7 +43,7 @@
             </header>
         </div>
 
-        <div class="wrapper bgded overlay" style="background-image: url('../image/fotoInicio.png');">
+        <div class="wrapper bgded overlay" style="background-image: url('./image/fotoInicio.png');">
             <div id="pageintro" class="hoc clear"> 
                 <article>
                     <h3 class="heading">¡BIENVENIDO A TU RINCÓN!</h3>
@@ -61,7 +60,7 @@
                 <ul class="nospace group btmspace-80">
                     <li class="one_third first">
                         <figure>
-                            <a class="imgover" href="#"><img src="../image/04.png" alt=""></a>
+                            <a class="imgover" href="#"><img src="./image/04.png" alt=""></a>
                             <figcaption>
                                 <h6 class="heading">¿Qué somos?</h6>
                                 <div>
@@ -72,7 +71,7 @@
                     </li>
                     <li class="one_third">
                         <figure>
-                            <a class="imgover" href="#"><img src="../image/03.png" alt=""></a>
+                            <a class="imgover" href="#"><img src="./image/03.png" alt=""></a>
                             <figcaption>
                                 <h6 class="heading">¿Qué ofrecemos?</h6>
                                 <div>
@@ -83,7 +82,7 @@
                     </li>
                     <li class="one_third">
                         <figure>
-                            <a class="imgover" href="#"><img src="../image/02.png" alt=""></a>
+                            <a class="imgover" href="#"><img src="./image/02.png" alt=""></a>
                             <figcaption>
                                 <h6 class="heading">Tu colección</h6>
                                 <div>
@@ -133,7 +132,7 @@
         </main>
     </div>
 
-    <div class="wrapper bgded overlay" style="background-image: url('../image/fotoInicio.png');">
+    <div class="wrapper bgded overlay" style="background-image: url('./image/fotoInicio.png');">
         <section id="testimonials" class="hoc container clear"> 
             <div class="sectiontitle">
                 <p class="heading underline font-x2">Nada te impide coleccionar</p>
