@@ -1,4 +1,5 @@
 <?php
+require_once 'BD/informacion.php';
 class Categoria {
     private $id_categoria_pk;
     private $nombre_categoria;

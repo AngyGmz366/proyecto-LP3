@@ -1,4 +1,5 @@
 <?php
+require_once 'BD/informacion.php';
 class Tienda {
     private $id_tienda_pk;
     private $nombre_tienda;

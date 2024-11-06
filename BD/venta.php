@@ -1,4 +1,5 @@
 <?php
+require_once 'BD/informacion.php';
 class Venta {
     private $idVentaPk;
     private $fecha;

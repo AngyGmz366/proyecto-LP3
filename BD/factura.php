@@ -1,5 +1,5 @@
 <?php
-
+require_once 'BD/informacion.php';
 class factura {
     private $id_factura_pk;
     private $fecha_emision;

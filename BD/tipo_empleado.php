@@ -1,4 +1,5 @@
 <?php
+require_once 'BD/informacion.php';
 class TipoEmpleado {
     private $id_tipo_empleado_pk;
     private $descripcion;

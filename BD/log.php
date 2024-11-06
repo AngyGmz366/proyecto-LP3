@@ -1,5 +1,5 @@
 <?php
-
+require_once 'BD/informacion.php';
 class log {
     private $id_log_pk;
     private $fecha_hora;
