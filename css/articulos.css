@@ -65,13 +65,24 @@ form img#preview {
 }
 
 form button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
+    padding: 10px;
+    background-color: #28a745;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 16px;
 }
+button {
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
 
 form button:hover {
     background-color: #45a049;

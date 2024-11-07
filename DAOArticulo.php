@@ -46,8 +46,8 @@ class DAOArticulo {
         $precio_unitario = $articulo->getPrecioUnitario();
         $inventario = $articulo->getInventario();
         $id_categoria_fk = $articulo->getIdCategoriaFk();
-
-        $query = "INSERT INTO tbl_articulo (nombre_articulo, descripcion, precio_unitario, inventario, id_categoria_fk) VALUES ('$nombre_articulo', '$descripcion', $precio_unitario, $inventario, $id_categoria_fk)";
+                
+        $query = "INSERT INTO tbl_articulo (nombre_articulo, descripcion, precio_unitario, inventario, id_categoria_fk) VALUES ('$nombre_articulo', '$descripcion', '$precio_unitario', '$inventario', '$id_categoria_fk')";
 
         $resultado = $this->conect->query($query);
         $this->desconectar();

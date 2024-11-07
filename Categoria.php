@@ -1,6 +1,4 @@
 <?php require_once 'DAOCategoria.php'; require_once 'BD/categoria.php';
-    $c = new DAOCategoria();
-    DEFINE('N', count($c->obtenerTodasLasCategorias()));
 ?>
 
 <!DOCTYPE html>
@@ -30,9 +28,13 @@
             <h2>Agregar Categoría</h2>
             <form id="agregarCategoria" method="POST" action="">
                 <label for="idCategoria">Id:</label>
-                <input type="text" id="idCategoria" name="idCategoria" value="<?php echo N+1; ?>" required>
-                
-                <script>document.getElementById('idCategoria').disabled = true;</script>
+                <?php
+                    $conect = new mysqli(SERVIDOR, USUARIO, CLAVE, BD);
+                    $resultado = $conect->query("SELECT * FROM tbl_categoria ORDER BY id_categoria_pk DESC LIMIT 1;");
+                    $tupla = $resultado->fetch_assoc();
+                    echo '<input type="text" id="idCategoria" name="idCategoria" value="'.$tupla['id_categoria_pk']+(1).'" disabled="true" required>';
+                    echo '';
+                ?>
 
                 <label for="nombreCategoria">Nombre:</label>
                 <input type="text" id="nombreCategoria" name="nombreCategoria" required>
