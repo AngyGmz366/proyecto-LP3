@@ -1,4 +1,5 @@
 <?php
+require_once 'BD/informacion.php';
 class Articulo {
     // Atributos de la clase según la imagen
     private $id_articulo_pk;

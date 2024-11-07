@@ -1,4 +1,5 @@
 <?php
+require_once 'BD/informacion.php';
 class DetalleFactura {
     private $id_detalle_factura_pk;
     private $cantidad;

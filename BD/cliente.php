@@ -1,4 +1,5 @@
 <?php
+require_once 'BD/informacion.php';
 class Cliente {
     private $id_cliente_pk;
     private $membresia;

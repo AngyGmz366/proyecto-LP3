@@ -1,4 +1,5 @@
 <?php
+require_once 'BD/informacion.php';
 class DetalleCarrito {
     private $id_detalle_carrito_pk;
     private $cantidad;
