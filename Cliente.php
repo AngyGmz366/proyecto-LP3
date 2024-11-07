@@ -1,6 +1,6 @@
 <?php
-require_once 'DAOCliente.php';
-require_once 'DAOUsuario.php';
+require_once 'DAO/DAOCliente.php';
+require_once 'DAO/DAOUsuario.php';
 
 $daoUsuario = new DAOUsuario();
 

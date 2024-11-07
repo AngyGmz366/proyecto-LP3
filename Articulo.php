@@ -1,7 +1,7 @@
 <?php 
-require_once 'DAOCategoria.php'; 
+require_once 'DAO/DAOCategoria.php'; 
 require_once 'BD/articulo.php';
-require_once 'DAOArticulo.php';
+require_once 'DAO/DAOArticulo.php';
 require_once 'BD/informacion.php';
 ?>
 

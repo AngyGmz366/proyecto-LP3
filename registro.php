@@ -1,5 +1,5 @@
 <?php
-require_once 'DAOUsuario.php';
+require_once 'DAO/DAOUsuario.php';
 require_once 'BD/usuario.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

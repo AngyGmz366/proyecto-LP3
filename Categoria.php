@@ -1,4 +1,6 @@
-<?php require_once 'DAOCategoria.php'; require_once 'BD/categoria.php';
+<?php 
+require_once 'DAO/DAOCategoria.php'; 
+require_once 'BD/categoria.php';
 ?>
 
 <!DOCTYPE html>
