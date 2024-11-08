@@ -114,7 +114,7 @@ require_once 'BD/categoria.php';
                 </tr>
             </thead>
             <tbody>
-                <!-- Filas dinámicas serán agregadas aquí -->
+                <!-- Filas dinámicas seran agregadas aquí -->
                     <?php
                         $c = new Categoria(999, "", "");
                         $daoC = new DAOCategoria();

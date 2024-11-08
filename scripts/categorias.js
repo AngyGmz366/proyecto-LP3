@@ -17,7 +17,7 @@ function agregarCategoria() {
             icon: 'success',
             title: 'Categoría agregada con éxito',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1600
         });
     }
 }
@@ -33,7 +33,7 @@ function eliminarCategoria() {
         icon: 'success',
         title: 'Categoría eliminada con éxito',
         showConfirmButton: false,
-        timer: 1500
+        timer: 1600
     });
 
     actualizarTabla();
@@ -56,7 +56,7 @@ function actualizarCategoria() {
                 icon: 'success',
                 title: 'Categoría actualizada con éxito',
                 showConfirmButton: false,
-                timer: 1500
+                timer: 1600
             });
     break;
 
