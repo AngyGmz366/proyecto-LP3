@@ -24,10 +24,7 @@
     </div>
 
     <div class="bgded" style="background-image:url('./image/fotoInicio.png');">
-                      <!-- Botón de carrito -->
-                    <div class="cart-button">
-                       <a href="cart.html"><i class="fas fa-shopping-cart"></i></a>
-                    </div>
+                
         <div class="wrapper row1">
             <header id="header" class="hoc clear">
                 <div id="logo" class="fl_left"> 

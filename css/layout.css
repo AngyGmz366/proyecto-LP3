@@ -458,25 +458,4 @@ input:focus, textarea:focus, *:required:focus{border-color:#B946AD !important;}
 	.font-x3{font-size:1.8rem;}
 }
 
-/* CSS para el botón del carrito */
-.cart-button {
-    position: fixed;
-    top: 10px;   /* Ajusta la distancia desde el borde superior */
-    right: 10px; /* Ajusta la distancia desde el borde derecho */
-    z-index: 1000; 
-    font-size: 24px;
-    background-color: #ffffff; 
-    padding: 5px;
-    border-radius: 50%; 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); 
-}
-
-.cart-button a {
-    color: #B946AD; /* Color del ícono */
-    text-decoration: none;
-}
-
-.cart-button a:hover {
-    color: #640065; /* Cambia de color al pasar el cursor */
-}
 
