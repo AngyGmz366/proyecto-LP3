@@ -43,6 +43,15 @@ function agregarArticulo() {
 
         actualizarTablaArticulos();
 
+        // SweetAlert de confirmación para agregar el artículo
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Artículo agregado con éxito',
+            showConfirmButton: false,
+            timer: 1500
+        });
+
         document.getElementById('formArticulo').reset();
         document.getElementById('preview').style.display = 'none';
     }
@@ -83,11 +92,29 @@ function actualizarTablaArticulos() {
         accionesCell.appendChild(eliminarBtn);
         accionesCell.appendChild(añadirStockBtn);
     });
+
+    //SweetAlert de confirmación para la actualizacion de articulos
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Artículo agregado con éxito',
+        showConfirmButton: false,
+        timer: 1500
+    });
 }
 
 function eliminarArticulo(index) {
     articulos.splice(index, 1);
     actualizarTablaArticulos();
+
+    //SweetAlert de confirmación para la eliminacion de articulos
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Artículo eliminado con éxito',
+        showConfirmButton: false,
+        timer: 1500
+    });
 }
 
 function añadirStock(index) {

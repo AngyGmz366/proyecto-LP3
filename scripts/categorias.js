@@ -10,6 +10,15 @@ function agregarCategoria() {
         categorias.push({ id, nombre, descripcion });
         actualizarTabla();
         limpiarFormulario('agregarCategoria');
+
+        //SweetAlert de confirmación para la agregación
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Categoría agregada con éxito',
+            showConfirmButton: false,
+            timer: 1500
+        });
     }
 }
 
@@ -17,6 +26,16 @@ function agregarCategoria() {
 function eliminarCategoria() {
     const id = document.getElementById('idCategoria').value;
     categorias = categorias.filter(categoria => categoria.id !== id);
+
+    //SweetAlert para confirmación de eliminación de la categoría
+    Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Categoría eliminada con éxito',
+        showConfirmButton: false,
+        timer: 1500
+    });
+
     actualizarTabla();
     limpiarFormulario('eliminarCategoria');
 }
@@ -31,7 +50,17 @@ function actualizarCategoria() {
         if (categorias[i].id === id) {
             categorias[i].nombre = nuevoNombre;
             categorias[i].descripcion = nuevaDescripcion;
-            break;
+
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Categoría actualizada con éxito',
+                showConfirmButton: false,
+                timer: 1500
+            });
+    break;
+
+            
         }
     }
     actualizarTabla();

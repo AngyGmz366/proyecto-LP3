@@ -44,7 +44,7 @@ require_once 'BD/categoria.php';
                 <label for="descripcion">Descripción:</label>
                 <textarea id="descripcionCategoria" name="descripcionCategoria" required></textarea>
 
-                <button type="submit" name="bttAgregarCategoria">Agregar Categoría</button>
+                <button type="submit" class="btn-agregar" name="bttAgregarCategoria">Agregar Categoría</button>
             </form>
             <?php
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['bttAgregarCategoria'])) {
@@ -64,7 +64,7 @@ require_once 'BD/categoria.php';
                 <label for="idEliminar">Id de la Categoría a Eliminar:</label>
                 <input type="text" id="idCategoria" name="idCategoria" required>
 
-                <button type="submit" name="bttEliminarCategoria">Eliminar Categoría</button>
+                <button type="submit" class="btn-eliminar" name="bttEliminarCategoria">Eliminar Categoría</button>
             </form>
             <?php
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['bttEliminarCategoria'])) {
@@ -90,7 +90,7 @@ require_once 'BD/categoria.php';
                 <label for="descripcionActualizar">Nueva Descripción:</label>
                 <textarea id="descripcionActualizar" name="descripcionActualizar" required></textarea>
 
-                <button type="submit" name="bttActualizarCategoria">Actualizar Categoría</button>
+                <button type="submit" class="btn-actualizar" name="bttActualizarCategoria">Actualizar Categoría</button>
             </form>
             <?php
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['bttActualizarCategoria'])) {
@@ -134,6 +134,8 @@ require_once 'BD/categoria.php';
     </div>
 
     <script src="./front-end/scripts/categorias.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </body>
 </html>
 

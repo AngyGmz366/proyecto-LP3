@@ -33,7 +33,7 @@
                 <label for="descripcion">Description:</label>
                 <textarea id="descripcion" name="descripcion" required></textarea>
 
-                <button type="button" onclick="agregarCategoria()">Add Category</button>
+                <button type="button" class="btn-agregar" onclick="agregarCategoria()">Add Category</button>
             </form>
         </div>
 
@@ -44,7 +44,7 @@
                 <label for="idEliminar">Id of the Category to Delete:</label>
                 <input type="text" id="idCategoria" name="idCategoria" required>
 
-                <button type="button" onclick="eliminarCategoria()">Delete Category</button>
+                <button type="button" class="btn-eliminar" onclick="eliminarCategoria()">Delete Category</button>
             </form>
         </div>
 
@@ -61,7 +61,7 @@
                 <label for="descripcionActualizar">New Description:</label>
                 <textarea id="descripcionActualizar" name="descripcionActualizar" required></textarea>
 
-                <button type="button" onclick="actualizarCategoria()">Update Category</button>
+                <button type="button" class="btn-actualizar" onclick="actualizarCategoria()">Update Category</button>
             </form>
         </div>
 
@@ -83,5 +83,7 @@
   
 
     <script src="/front-end/scripts/categorias.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </body>
 </html>

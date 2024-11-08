@@ -6,7 +6,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #161C21;
     padding: 20px;
 }
 
@@ -78,16 +78,36 @@ textarea {
 
 button {
     padding: 10px;
-    background-color: #28a745;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
-button:hover {
-    background-color: #218838;
+.btn-agregar {
+    background-color: #007bff; /* Azul */
+}
+
+.btn-agregar:hover {
+    background-color: #0056b3;
+}
+
+.btn-eliminar {
+    background-color: #dc3545; /* Rojo */
+}
+
+.btn-eliminar:hover {
+    background-color: #c82333;
+}
+
+.btn-actualizar {
+    background-color: #e9b611; /* Amarillo */
+}
+
+.btn-actualizar:hover {
+    background-color: #e9b711d7;
 }
 
 table {

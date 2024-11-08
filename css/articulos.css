@@ -1,14 +1,14 @@
 /* Estilos Generales */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+    background-color: #161c21;
     color: #333;
     margin: 0;
     padding: 0;
 }
 
 header {
-    background-color: #2c2c2c;
+    background-color: #683e64;
     color: white;
     padding: 1em;
     text-align: center;
@@ -112,7 +112,7 @@ table th, table td {
 }
 
 table th {
-    background-color: #2c2c2c;
+    background-color: #B946AD;
     color: white;
 }
 
