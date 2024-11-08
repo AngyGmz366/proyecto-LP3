@@ -49,7 +49,7 @@ function agregarArticulo() {
             icon: 'success',
             title: 'Artículo agregado con éxito',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1600
         });
 
         document.getElementById('formArticulo').reset();
@@ -99,7 +99,7 @@ function actualizarTablaArticulos() {
         icon: 'success',
         title: 'Artículo agregado con éxito',
         showConfirmButton: false,
-        timer: 1500
+        timer: 1600
     });
 }
 
@@ -113,7 +113,7 @@ function eliminarArticulo(index) {
         icon: 'success',
         title: 'Artículo eliminado con éxito',
         showConfirmButton: false,
-        timer: 1500
+        timer: 1600
     });
 }
 
