@@ -5,8 +5,6 @@
     <title>EL RINCON DEL COLECCIONISTA</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-     <!-- Link de Font Awesome para usar el ícono de carrito -->
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="./css/layout.css" rel="stylesheet" type="text/css" media="all">
 </head>
 
@@ -37,7 +35,7 @@
                         <li class="active"><a href="index.html">Producto</a></li>
                         <li class="active"><a href="index.html">Categorías</a></li>
                         <li class="active"><a href="logout.php">Cerrar sesión</a></li>
-                     
+                        <li class="active"><a href="cart.html"><i class="fas fa-shopping-cart"></i></a></li>
                    
                     </ul>
                 </nav>

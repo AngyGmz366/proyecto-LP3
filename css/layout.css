@@ -458,4 +458,15 @@ input:focus, textarea:focus, *:required:focus{border-color:#B946AD !important;}
 	.font-x3{font-size:1.8rem;}
 }
 
-
+/* Botón del carrito */
+.active a i.fas.fa-shopping-cart {
+	color: #B946AD;
+	background-color: #ffffff;
+	border: 2px solid #ffffff;
+	border-radius: 5px;
+	padding: 10px;
+  }
+  
+  .active a i.fas.fa-shopping-cart:hover {
+	background-color: #640065;
+  }
