@@ -34,7 +34,7 @@
                         <li class="active"><a href="Articulo.php">Producto</a></li>
                         <li class="active"><a href="Categoria.php">Categorías</a></li>
                         <li class="active"><a href="Cliente.php">Clientes</a></li>
-                        <li class="active"><a href="empleados.php">Empleados</a></li>
+                        <li class="active"><a href="Empleado.php">Empleados</a></li>
                         <li class="active"><a href="logs.php">Perfil</a>
                         <li class="active"><a href="logout.php">Cerrar sesión</a></li>
                         

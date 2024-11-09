@@ -1,38 +1,12 @@
-<?php
-require_once 'DAO/DAOEmpleado.php';
-require_once 'Empleado.php';
-require_once 'DAO/DAOTipoEmpleado.php'; // Asegúrate de tener esta clase para obtener los tipos de empleados
-require_once 'DAO/DAOUsuario.php'; // Asegúrate de tener esta clase para obtener los usuarios
-require_once 'DAO/DAOTienda.php'; // Asegúrate de tener esta clase para obtener las tiendas
+<?php 
+require_once 'DAO/DAOEmpleado.php'; 
+require_once 'BD/empleado.php';
 
+// Crear una instancia del DAO
 $daoEmpleado = new DAOEmpleado();
-$daoUsuario = new DAOUsuario();
-$daoTipoEmpleado = new DAOTipoEmpleado();
-$daoTienda = new DAOTienda();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $fecha_contratacion = $_POST['fecha_contratacion'];
-    $id_tipo_empleado_fk = $_POST['id_tipo_empleado_fk'];
-    $id_usuario_fk = $_POST['id_usuario_fk'];
-    $id_tienda_fk = $_POST['id_tienda_fk'];
-
-    $empleado = new Empleado(null, $fecha_contratacion, $id_tipo_empleado_fk, $id_usuario_fk, $id_tienda_fk);
-
-    try {
-        if ($daoEmpleado->agregarEmpleado($empleado)) {
-            echo "Empleado agregado exitosamente.";
-        } else {
-            echo "Error al agregar el empleado.";
-        }
-    } catch (Exception $e) {
-        echo "Excepción capturada: " . $e->getMessage();
-    }
-}
-
-$empleados = $daoEmpleado->obtenerEmpleados();
-$usuarios = $daoUsuario->obtenerTodosLosUsuarios(); // Obtener todos los usuarios para la lista desplegable
-$tiposEmpleados = $daoTipoEmpleado->obtenerTodosLosTiposEmpleado(); // Obtener todos los tipos de empleados para la lista desplegable
-$tiendas = $daoTienda->obtenerTodasLasTiendas(); // Obtener todas las tiendas para la lista desplegable
+// Obtener los datos de los empleados
+$empleados = $daoEmpleado->obtenerEmpleadosConDetalles(); 
 ?>
 
 <!DOCTYPE html>
@@ -40,70 +14,141 @@ $tiendas = $daoTienda->obtenerTodasLasTiendas(); // Obtener todas las tiendas pa
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Empleados</title>
+    <link rel="stylesheet" href="./css/empleados.css"> 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
+</head>
+
+<body>
+
     <header>
         <div class="logo">
-            <img src="./image/logo.png" alt="Logo El Rincón del Coleccionista">
+            <img src="./image/logo.png" alt="Logo de la Empresa">
         </div>
-        <h1>Gestion de Empleados</h1>
+        <h1>Gestión de Empleados</h1>
     </header>
-    <link rel="stylesheet" href="./css/empleados.css"> 
     <button onclick="window.location.href='homeEmpleados.php'">Volver</button>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
-</head>
-<body>
-    <h1>Agregar Empleado</h1>
-    <form action="" method="post">
-        <label for="fecha_contratacion">Fecha de Contratación:</label>
-        <input type="date" id="fecha_contratacion" name="fecha_contratacion" required><br><br>
+    <br>
 
-        <label for="id_tipo_empleado_fk">Tipo de Empleado:</label>
-        <select id="id_tipo_empleado_fk" name="id_tipo_empleado_fk" required>
+    <div class="container">
+
+        <div class="form-container">
+            <h2>Agregar Empleado</h2>
+            <form id="agregarEmpleado" method="POST" action="">
+                <label for="fecha_contratacion">Fecha de Contratación:</label>
+                <input type="date" id="fecha_contratacion" name="fecha_contratacion" required>
+
+                <label for="id_tipo_empleado_fk">Tipo de Empleado:</label>
+                <select id="id_tipo_empleado_fk" name="id_tipo_empleado_fk" required>
+                    <option value="1">Venta</option> 
+                    <option value="2">Operario</option> 
+                </select>
+
+                <label for="id_usuario_fk">ID de Usuario:</label>
+                <input type="number" id="id_usuario_fk" name="id_usuario_fk" required>
+
+                <label for="id_tienda_fk">ID de Tienda:</label>
+                <input type="number" id="id_tienda_fk" name="id_tienda_fk" required>
+
+                <button type="submit" class="btn btn-primary" name="bttAgregarEmpleado">Agregar Empleado</button>
+            </form>
             <?php
-            foreach ($tiposEmpleados as $tipoEmpleado) {
-                echo "<option value='" . $tipoEmpleado->getIdTipoEmpleadoPk() . "'>" . $tipoEmpleado->getDescripcion() . "</option>";
-            }
+                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['bttAgregarEmpleado'])) {
+                    $e = new Empleado(null, $_POST['fecha_contratacion'], $_POST['id_tipo_empleado_fk'], $_POST['id_usuario_fk'], $_POST['id_tienda_fk']);
+                    $daoE = new DAOEmpleado();
+                    $daoE->crearEmpleado($e);
+                    // Recargar la página después de agregar un empleado
+                    echo "<script>window.location.href='Empleado.php';</script>"; 
+                    exit();
+                }
             ?>
-        </select><br><br>
+        </div>
 
-        <label for="id_usuario_fk">ID Usuario:</label>
-        <select id="id_usuario_fk" name="id_usuario_fk" required>
+        <div class="form-container">
+            <h2>Eliminar Empleado</h2>
+            <form id="eliminarEmpleado" method="POST" action="">
+                <label for="id_empleado_pk">ID del Empleado a Eliminar:</label>
+                <input type="number" id="id_empleado_pk" name="id_empleado_pk" required>
+
+                <button type="submit" class="btn btn-danger" name="bttEliminarEmpleado">Eliminar Empleado</button>
+            </form>
             <?php
-            foreach ($usuarios as $usuario) {
-                echo "<option value='" . $usuario->getIdUsuarioPk() . "'>" . $usuario->getNombreTienda() . " " . $usuario->getApellidoUsuario() . "</option>";
-            }
+                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['bttEliminarEmpleado'])) {
+                    $id = $_POST['id_empleado_pk'];
+                    $daoE = new DAOEmpleado();
+                    $daoE->eliminarEmpleado($id);
+                    // Recargar la página después de eliminar un empleado
+                    echo "<script>window.location.href='Empleado.php';</script>"; 
+                    exit();
+                }
             ?>
-        </select><br><br>
+        </div>
 
-        <label for="id_tienda_fk">ID Tienda:</label>
-        <select id="id_tienda_fk" name="id_tienda_fk" required>
+        <div class="form-container">
+            <h2>Actualizar Empleado</h2>
+            <form id="actualizarEmpleado" method="POST" action="">
+                <label for="id_empleado_pk">ID del Empleado:</label>
+                <input type="number" id="id_empleado_pk_actualizar" name="id_empleado_pk" readonly> 
+
+                <label for="fecha_contratacion">Nueva Fecha de Contratación:</label>
+                <input type="date" id="fecha_contratacion_actualizar" name="fecha_contratacion" required>
+
+                <label for="id_tipo_empleado_fk">Nuevo Tipo de Empleado:</label>
+                <select id="id_tipo_empleado_fk_actualizar" name="id_tipo_empleado_fk" required>
+                    <option value="1">Venta</option> 
+                    <option value="2">Operario</option> 
+                </select>
+
+                <label for="id_usuario_fk">Nuevo ID de Usuario:</label>
+                <input type="number" id="id_usuario_fk_actualizar" name="id_usuario_fk" required>
+
+                <label for="id_tienda_fk">Nuevo ID de Tienda:</label>
+                <input type="number" id="id_tienda_fk_actualizar" name="id_tienda_fk" required>
+
+                <button type="submit" class="btn btn-warning" name="bttActualizarEmpleado">Actualizar Empleado</button>
+            </form>
             <?php
-            foreach ($tiendas as $tienda) {
-                echo "<option value='" . $tienda->getIdTiendaPk() . "'>" . $tienda->getNombreTienda() . "</option>";
-            }
+                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['bttActualizarEmpleado'])) {
+                    $e = new Empleado($_POST['id_empleado_pk'], $_POST['fecha_contratacion'], $_POST['id_tipo_empleado_fk'], $_POST['id_usuario_fk'], $_POST['id_tienda_fk']);
+                    $daoE = new DAOEmpleado();
+                    $daoE->actualizarEmpleado($e);
+                    // Recargar la página después de actualizar un empleado
+                    echo "<script>window.location.href='Empleado.php';</script>"; 
+                    exit();
+                }
             ?>
-        </select><br><br>
+        </div>
 
-        <input type="submit" value="Agregar Empleado">
-    </form>
+        <div class="table-container">  
+            <table class='table table-dark'>
+                <thead class='thead thead-light'>
+                    <tr>
+                        <th>ID Empleado</th>
+                        <th>Fecha de Contratación</th>
+                        <th>Tipo de Empleado</th>
+                        <th>Tienda</th>
+                        <th>ID Usuario</th>
+                        <th>Nombre de Usuario</th>
+                        <th>Correo</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($empleados as $empleado): ?>
+                        <tr>
+                            <td><?php echo $empleado['id_empleado_pk']; ?></td>
+                            <td><?php echo $empleado['fecha_contratacion']; ?></td>
+                            <td><?php echo $empleado['tipo_empleado']; ?></td>
+                            <td><?php echo $empleado['tienda']; ?></td>
+                            <td><?php echo $empleado['id_usuario_pk']; ?></td>
+                            <td><?php echo $empleado['nombre_usuario']; ?></td>
+                            <td><?php echo $empleado['correo']; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
 
-    <h2>Lista de Empleados</h2>
-    <div id="tabla_empleados">
-        <?php
-        echo $empleados;
-        ?>
     </div>
+
 </body>
 </html>

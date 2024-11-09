@@ -118,5 +118,6 @@ class DAOVenta {
         
         return $resultado === TRUE;
     }
+    
 }
 ?>

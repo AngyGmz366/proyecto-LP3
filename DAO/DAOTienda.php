@@ -94,5 +94,48 @@ class DAOTienda {
         
         return $resultado === TRUE;
     }
+    public function getTabla(){
+        $this->conectar();
+        $sql = "SELECT * FROM tbl_tienda";
+        $res = $this->conect->query($sql);
+        $tabla = "<table class='table table-dark'>"
+                 . "<thead class='thead thead-light'>";
+        $tabla .= "<tr><th>ID Tienda</th><th>Nombre de la tienda</th><th>Acción</th>"
+                 ."</tr></thead><tbody>";
+        
+        while($fila = mysqli_fetch_assoc($res)){
+            $tabla .= "<tr>"
+                 ."<td>".$fila["id_tienda_pk"]."</td>"
+                 ."<td>".$fila["nombre_tienda"]."</td>"
+                 ."<td><a href=\"javascript:cargar('" . $fila["id_tienda_pk"] . "','" . $fila["nombre_tienda"] . "')\">Seleccionar</a></td>" 
+                 ."</tr>";         
+        }
+        $tabla .="</tbody></table>";
+        $res->close();
+        $this->desconectar();                  
+        return $tabla;
+    }
+
+    public function filtrar($valor, $criterio){
+        $sql     =   "SELECT * FROM tbl_tienda WHERE $criterio LIKE '%$valor%'";
+        $this->conectar();                                  
+        $res = $this->conect->query($sql);     
+        $tabla = "<table class='table table-dark'>"
+                 . "<thead class='thead thead-light'>";
+        $tabla .= "<tr><th>ID Tienda</th><th>Nombre de la tienda</th><th>Acción</th>"
+                 ."</tr></thead><tbody>";
+        
+        while($fila = mysqli_fetch_assoc($res)){
+            $tabla .= "<tr>"
+                 ."<td>".$fila["id_tienda_pk"]."</td>"
+                 ."<td>".$fila["nombre_tienda"]."</td>"
+                 ."<td><a href=\"javascript:cargar('" . $fila["id_tienda_pk"] . "','" . $fila["nombre_tienda"] . "')\">Seleccionar</a></td>" 
+                 ."</tr>";         
+        }
+        $tabla .="</tbody></table>";
+        $res->close();
+        $this->desconectar();                  
+        return $tabla;
+    }
 }
 ?>

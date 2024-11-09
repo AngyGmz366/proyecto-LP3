@@ -1,6 +1,10 @@
 <?php
 require_once 'BD/informacion.php';
 require_once 'BD/empleado.php';
+require_once 'DAO/DAOUsuario.php'; 
+require_once 'DAO/DAOTipoEmpleado.php';
+require_once 'DAO/DAOTienda.php';
+
 class DAOEmpleado {
     private $conect;
 
@@ -15,146 +19,228 @@ class DAOEmpleado {
         $this->conect->close();
     }
 
-    public function agregarEmpleado($empleado) {
+    public function obtenerTodosLosEmpleados() {
         $this->conectar();
-        $fecha_contratacion = $this->conect->real_escape_string($empleado->getFechaContratacion());
-        $id_tipo_empleado_fk = $this->conect->real_escape_string($empleado->getIdTipoEmpleadoFk());
-        $id_usuario_fk = $this->conect->real_escape_string($empleado->getIdUsuarioFk());
-        $id_tienda_fk = $this->conect->real_escape_string($empleado->getIdTiendaFk());
+        $query = "SELECT * FROM tbl_empleado";
+        $result = $this->conect->query($query);
+        $empleados = [];
 
-        $query = "INSERT INTO tbl_empleado (fecha_contratacion, id_tipo_empleado_fk, id_usuario_fk, id_tienda_fk) 
-                  VALUES ('$fecha_contratacion', '$id_tipo_empleado_fk', '$id_usuario_fk', '$id_tienda_fk')";
+        if ($result->num_rows > 0) {
+            while ($fila = $result->fetch_assoc()) {
+                $empleados[] = new Empleado(
+                    $fila['id_empleado_pk'],
+                    $fila['fecha_contratacion'],
+                    $fila['id_tipo_empleado_fk'],
+                    $fila['id_usuario_fk'],
+                    $fila['id_tienda_fk']
+                );
+            }
+        }
 
-        if ($this->conect->query($query) === TRUE) {
+        $this->desconectar();
+        return $empleados;
+    }
+
+    public function crearEmpleado($empleado) {
+        $this->conectar();
+        
+        // Consulta preparada para prevenir inyección SQL
+        $stmt = $this->conect->prepare("INSERT INTO tbl_empleado (fecha_contratacion, id_tipo_empleado_fk, id_usuario_fk, id_tienda_fk) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("siii", 
+            $empleado->getFechaContratacion(), 
+            $empleado->getIdTipoEmpleadoFk(), 
+            $empleado->getIdUsuarioFk(), 
+            $empleado->getIdTiendaFk()
+        );
+
+        $resultado = $stmt->execute();
+        $stmt->close();
+        $this->desconectar();
+        
+        return $resultado;
+    }
+
+    public function obtenerEmpleadoPorId($id_empleado_pk) {
+        $this->conectar();
+        
+        // Consulta preparada para prevenir inyección SQL
+        $stmt = $this->conect->prepare("SELECT * FROM tbl_empleado WHERE id_empleado_pk = ?");
+        $stmt->bind_param("i", $id_empleado_pk);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $fila = $result->fetch_assoc();
+            $empleado = new Empleado(
+                $fila['id_empleado_pk'],
+                $fila['fecha_contratacion'],
+                $fila['id_tipo_empleado_fk'],
+                $fila['id_usuario_fk'],
+                $fila['id_tienda_fk']
+            );
+            $stmt->close();
             $this->desconectar();
-            return true;
+            return $empleado;
         } else {
-            $error_message = "Error al registrar el empleado: " . $this->conect->error;
+            $stmt->close();
             $this->desconectar();
-            throw new Exception($error_message);
+            return null;
         }
     }
 
-    public function modificarEmpleado($empleado) {
+    public function actualizarEmpleado($empleado) {
         $this->conectar();
-        $id_empleado_pk = $this->conect->real_escape_string($empleado->getIdEmpleadoPk());
-        $fecha_contratacion = $this->conect->real_escape_string($empleado->getFechaContratacion());
-        $id_tipo_empleado_fk = $this->conect->real_escape_string($empleado->getIdTipoEmpleadoFk());
-        $id_usuario_fk = $this->conect->real_escape_string($empleado->getIdUsuarioFk());
-        $id_tienda_fk = $this->conect->real_escape_string($empleado->getIdTiendaFk());
 
-        $query = "UPDATE tbl_empleado SET 
-                  fecha_contratacion='$fecha_contratacion', 
-                  id_tipo_empleado_fk='$id_tipo_empleado_fk', 
-                  id_usuario_fk='$id_usuario_fk', 
-                  id_tienda_fk='$id_tienda_fk' 
-                  WHERE id_empleado_pk='$id_empleado_pk'";
+        // Consulta preparada para prevenir inyección SQL
+        $stmt = $this->conect->prepare("UPDATE tbl_empleado SET fecha_contratacion = ?, id_tipo_empleado_fk = ?, id_usuario_fk = ?, id_tienda_fk = ? WHERE id_empleado_pk = ?");
+        $stmt->bind_param("siiii", 
+            $empleado->getFechaContratacion(), 
+            $empleado->getIdTipoEmpleadoFk(), 
+            $empleado->getIdUsuarioFk(), 
+            $empleado->getIdTiendaFk(),
+            $empleado->getIdEmpleadoPk()
+        );
 
-        if ($this->conect->query($query) === TRUE) {
-            $this->desconectar();
-            return true;
-        } else {
-            $error_message = "Error al actualizar el empleado: " . $this->conect->error;
-            $this->desconectar();
-            throw new Exception($error_message);
-        }
+        $resultado = $stmt->execute();
+        $stmt->close();
+        $this->desconectar();
+        
+        return $resultado;
+    }
+
+    public function eliminarEmpleado($id_empleado_pk) {
+        $this->conectar();
+
+        // Consulta preparada para prevenir inyección SQL
+        $stmt = $this->conect->prepare("DELETE FROM tbl_empleado WHERE id_empleado_pk = ?");
+        $stmt->bind_param("i", $id_empleado_pk);
+
+        $resultado = $stmt->execute();
+        $stmt->close();
+        $this->desconectar();
+        
+        return $resultado;
     }
 
     public function getTabla(){
         $this->conectar();
-        $sql = "SELECT * FROM tbl_usuario";
+        // Consulta para obtener nombres en lugar de IDs
+        $sql = "SELECT 
+                    e.id_empleado_pk, 
+                    e.fecha_contratacion, 
+                    te.descripcion AS tipo_empleado,
+                    u.nombre_tienda AS nombre_usuario,
+                    t.nombre_tienda AS tienda
+                FROM tbl_empleado e
+                INNER JOIN tbl_tipo_empleado te ON e.id_tipo_empleado_fk = te.id_tipo_empleado_pk
+                INNER JOIN tbl_usuario u ON e.id_usuario_fk = u.id_usuario_pk
+                INNER JOIN tbl_tienda t ON e.id_tienda_fk = t.id_tienda_pk";
         $res = $this->conect->query($sql);
+
         $tabla = "<table class='table table-dark'>"
-                . "<thead class='thead thead-light'>";
-        $tabla .= "<tr><th>ID Usuario</th><th>Nombre de la tienda</th><th>Correo</th>"
-                ."<th>Fecha de registro</th><th>Acción</th>"
-                ."</tr></thead><tbody>";
-              
+                 . "<thead class='thead thead-light'>";
+        $tabla .= "<tr><th>ID Empleado</th><th>Fecha Contratación</th><th>Tipo Empleado</th>"
+                 ."<th>Usuario</th><th>Tienda</th><th>Acción</th>"
+                 ."</tr></thead><tbody>";
+
         while($fila = mysqli_fetch_assoc($res)){
             $tabla .= "<tr>"
-                ."<td>".$fila["id_usuario_pk"]."</td>"
-                ."<td>".$fila["nombre_tienda"]."</td>"
-                ."<td>".$fila["correo"]."</td>"
-                ."<td>".$fila["fecha_registro"]."</td>"
-                ."<td><a href=\"javascript:cargar('".$fila["id_usuario_pk"]."','".$fila["nombre_tienda"]
-                    ."','".$fila["correo"]."','".$fila["fecha_registro"]
-                    ."')\">Seleccionar</a></td>" 
-                ."</tr>";               
+                     ."<td>".$fila["id_empleado_pk"]."</td>"
+                     ."<td>".$fila["fecha_contratacion"]."</td>"
+                     ."<td>".$fila["tipo_empleado"]."</td>" 
+                     ."<td>".$fila["nombre_usuario"]."</td>" 
+                     ."<td>".$fila["tienda"]."</td>" 
+                     ."<td><a href=\"javascript:cargar('".$fila["id_empleado_pk"]."','".$fila["fecha_contratacion"]
+                        ."','".$fila["tipo_empleado"]."','".$fila["nombre_usuario"]
+                        ."','".$fila["tienda"]."')\">Seleccionar</a></td>" 
+                     ."</tr>";   
         }
         $tabla .="</tbody></table>";
         $res->close();
-        $this->desconectar();                   
+        $this->desconectar();         
         return $tabla;
     }
-    public function obtenerEmpleados() {
-        $this->conectar();
-        $sql = "SELECT e.id_empleado_pk, e.fecha_contratacion, te.descripcion AS tipo_empleado, u.nombre_tienda, u.apellido_usuario, u.correo 
-                FROM tbl_empleado e 
-                INNER JOIN tipo_empleado te ON e.id_tipo_empleado_fk = te.id_tipo_empleado_pk 
-                INNER JOIN tbl_usuario u ON e.id_usuario_fk = u.id_usuario_pk";
-        $res = $this->conect->query($sql);
-    
-        if (!$res) {
-            // Manejo de errores
-            error_log("Error en la consulta SQL: " . $this->conect->error);
-            return "<p>Error al obtener los empleados.</p>";
-        }
-    
-        $tabla = "<table class='table table-dark'>"
-                . "<thead class='thead thead-light'>";
-        $tabla .= "<tr><th>ID Empleado</th><th>Fecha de Contratación</th><th>Tipo de Empleado</th>"
-                . "<th>Nombre de Tienda</th><th>Apellido</th><th>Correo</th><th>Acción</th>"
-                . "</tr></thead><tbody>";
-    
-        while ($fila = mysqli_fetch_assoc($res)) {
-            $tabla .= "<tr>"
-                    . "<td>" . htmlspecialchars($fila["id_empleado_pk"]) . "</td>"
-                    . "<td>" . htmlspecialchars($fila["fecha_contratacion"]) . "</td>"
-                    . "<td>" . htmlspecialchars($fila["tipo_empleado"]) . "</td>"
-                    . "<td>" . htmlspecialchars($fila["nombre_tienda"]) . "</td>"
-                    . "<td>" . htmlspecialchars($fila["apellido_usuario"]) . "</td>"
-                    . "<td>" . htmlspecialchars($fila["correo"]) . "</td>"
-                    . "<td><a href=\"javascript:cargar('" . htmlspecialchars($fila["id_empleado_pk"]) . "','" . htmlspecialchars($fila["fecha_contratacion"])
-                    . "','" . htmlspecialchars($fila["tipo_empleado"]) . "','" . htmlspecialchars($fila["nombre_tienda"])
-                    . "','" . htmlspecialchars($fila["apellido_usuario"]) . "','" . htmlspecialchars($fila["correo"])
-                    . "')\">Seleccionar</a></td>"
-                    . "</tr>";
-        }
-        $tabla .= "</tbody></table>";
-        $res->close();
-        $this->desconectar();
-        return $tabla;
-    }
-    
-    
-    
 
     public function filtrar($valor, $criterio){
-        $sql    =   "SELECT * FROM tbl_usuario WHERE $criterio LIKE '%$valor%'";
-        $this->conectar();                      
-        $res = $this->conect->query($sql);         
-        $tabla = "<table class='table table-dark'>"
-                . "<thead class='thead thead-light'>";
-        $tabla .= "<tr><th>ID Usuario</th><th>Nombre de la tienda</th><th>Correo</th>"
-                ."<th>Fecha de registro</th><th>Acción</th>"
-                ."</tr></thead><tbody>";
-              
-        while($fila = mysqli_fetch_assoc($res)){
-            $tabla .= "<tr>"
-                ."<td>".$fila["id_usuario_pk"]."</td>"
-                ."<td>".$fila["nombre_tienda"]."</td>"
-                ."<td>".$fila["correo"]."</td>"
-                ."<td>".$fila["fecha_registro"]."</td>"
-                ."<td><a href=\"javascript:cargar('".$fila["id_usuario_pk"]."','".$fila["nombre_tienda"]
-                    ."','".$fila["correo"]."','".$fila["fecha_registro"]
-                    ."')\">Seleccionar</a></td>" 
-                ."</tr>";               
+        $this->conectar();
+
+        // Consulta preparada para prevenir inyección SQL
+        $sql = "SELECT 
+                    e.id_empleado_pk, 
+                    e.fecha_contratacion, 
+                    te.descripcion AS tipo_empleado,
+                    u.nombre_tienda AS nombre_usuario,
+                    t.nombre_tienda AS tienda
+                FROM tbl_empleado e
+                INNER JOIN tbl_tipo_empleado te ON e.id_tipo_empleado_fk = te.id_tipo_empleado_pk
+                INNER JOIN tbl_usuario u ON e.id_usuario_fk = u.id_usuario_pk
+                INNER JOIN tbl_tienda t ON e.id_tienda_fk = t.id_tienda_pk
+                WHERE `$criterio` LIKE ?";
+
+        $stmt = $this->conect->prepare($sql);
+        if ($stmt) {
+            $valor = '%' . $valor . '%';
+            $stmt->bind_param("s", $valor);
+            $stmt->execute();
+            $res = $stmt->get_result();
+
+            $tabla = "<table class='table table-dark'>"
+                     . "<thead class='thead thead-light'>";
+            $tabla .= "<tr><th>ID Empleado</th><th>Fecha Contratación</th><th>Tipo Empleado</th>"
+                     ."<th>Usuario</th><th>Tienda</th><th>Acción</th>"
+                     ."</tr></thead><tbody>";
+            
+            while($fila = mysqli_fetch_assoc($res)){
+                $tabla .= "<tr>"
+                         ."<td>".$fila["id_empleado_pk"]."</td>"
+                         ."<td>".$fila["fecha_contratacion"]."</td>"
+                         ."<td>".$fila["tipo_empleado"]."</td>" 
+                         ."<td>".$fila["nombre_usuario"]."</td>" 
+                         ."<td>".$fila["tienda"]."</td>" 
+                         ."<td><a href=\"javascript:cargar('".$fila["id_empleado_pk"]."','".$fila["fecha_contratacion"]
+                            ."','".$fila["tipo_empleado"]."','".$fila["nombre_usuario"]
+                            ."','".$fila["tienda"]."')\">Seleccionar</a></td>" 
+                         ."</tr>";   
+            }
+            $tabla .="</tbody></table>";
+            $stmt->close(); // Cerrar la consulta preparada
+            $this->desconectar();         
+            return $tabla;
+        } else {
+            // Manejar el error de la consulta preparada
+            printf("Error al preparar la consulta: %s\n", $this->conect->error);
+            $this->desconectar();  
+            return "Error al obtener la tabla"; // O manejar el error de otra forma
         }
-        $tabla .="</tbody></table>";
-        $res->close();
-        $this->desconectar();                   
-        return $tabla;
     }
+
+    public function obtenerEmpleadosConDetalles() {
+        $this->conectar();
     
+        $query = "SELECT 
+                    e.id_empleado_pk, 
+                    e.fecha_contratacion, 
+                    te.descripcion AS tipo_empleado,
+                    t.nombre_tienda AS tienda,
+                    u.id_usuario_pk,
+                    u.nombre_tienda AS nombre_usuario,
+                    u.correo
+                FROM tbl_empleado e
+                INNER JOIN tbl_tipo_empleado te ON e.id_tipo_empleado_fk = te.id_tipo_empleado_pk
+                INNER JOIN tbl_tienda t ON e.id_tienda_fk = t.id_tienda_pk
+                INNER JOIN tbl_usuario u ON e.id_usuario_fk = u.id_usuario_pk";
+    
+        $result = $this->conect->query($query);
+        $empleados = [];
+    
+        if ($result->num_rows > 0) {
+            while ($fila = $result->fetch_assoc()) {
+                $empleados[] = $fila; 
+            }
+        }
+    
+        $this->desconectar();
+        return $empleados;
+    }
 }
 ?>
