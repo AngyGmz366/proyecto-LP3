@@ -1,0 +1,105 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #161C21;
+    color: #333;
+}
+
+header {
+    background-color: #B946AD;
+    color: white;
+    padding: 1em;
+    text-align: center;
+}
+
+.logo img {
+    max-width: 80px;
+    position: absolute;
+    left: 20px;
+    top: 10px;
+}
+
+header nav {
+    margin-top: 1em;
+}
+
+header select {
+    padding: 0.5em;
+    font-size: 1em;
+    border-radius: 5px;
+    border: none;
+}
+
+main {
+    padding: 2em;
+}
+
+.contenedor-articulos {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5em;
+    margin-top: 2em;
+}
+
+.articulo {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1em;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.articulo img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.articulo h3 {
+    font-size: 1.2em;
+    color: #333;
+}
+
+.articulo p {
+    font-size: 1em;
+    color: #666;
+    margin: 0.5em 0;
+}
+
+.articulo .botones-cantidad {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+    margin-top: 0.5em;
+}
+
+.articulo .botones-cantidad button {
+    padding: 0.5em;
+    font-size: 1.2em;
+    border: none;
+    background-color: #B946AD;
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.articulo .botones-cantidad button:hover {
+    background-color: #8B008B;
+}
+
+.articulo .botones-cantidad span {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+}
+
+footer {
+    margin-top: 2em;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1em 0;
+}

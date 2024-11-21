@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vista Cliente - Rincón del Coleccionista</title>
+    <link rel="stylesheet" href="VistaCliente.css">
+</head>
+<body>
+    <header>
+	<div class="logo">
+            <img src="logo.png" alt="Logo El Rincón del Coleccionista">
+        </div>
+        <h1>El Rincón del Coleccionista</h1>
+        <nav>
+            <select id="filtroCategoria" onchange="filtrarPorCategoria()">
+                <option value="todos">Todas las Categorías</option>
+                <option value="figuras">Figuras</option>
+                <option value="posters">Pósters</option>
+                <option value="comics">Cómics</option>
+                <option value="videojuegos">Videojuegos</option>
+            </select>
+        </nav>
+    </header>
+    <main>
+        <div id="listaArticulos" class="contenedor-articulos">
+            <!-- Aquí se generarán dinámicamente los artículos -->
+        </div>
+    </main>
+    <footer>
+        <p>© 2024 Tienda de Colección. Todos los derechos reservados.</p>
+    </footer>
+    <script src="VistaCliente.js"></script>
+</body>
+</html>
