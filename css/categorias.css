@@ -132,3 +132,15 @@ th {
 tbody tr:nth-child(even) {
     background-color: #f9f9f9;
 }
+/* Asegurar que los select y los botones tengan el mismo ancho y altura */
+select {
+    width: 100%; /* Ajustar el ancho al 100% del contenedor */
+    height: 40px; /* Ajustar la altura para que sea igual a la de los botones */
+    padding: 10px; /* Agregar espacio interno para consistencia */
+    font-size: 16px; /* Tamaño de fuente uniforme */
+    border-radius: 5px; /* Bordes redondeados uniformes */
+    border: 1px solid #ccc; /* Bordes suaves */
+    box-sizing: border-box; /* Incluir el padding dentro del ancho y alto */
+}
+
+

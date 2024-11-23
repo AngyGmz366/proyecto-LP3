@@ -84,7 +84,7 @@ $usuario = new Usuario();
                 <label for="fecha_registro">Fecha de registro</label>
                 <input type="date" class="form-control" id="fecha_registro" name="fecha_registro">
             </div>
-            <button type="submit" id="btnAgregar" name="btnAgregar" class="btn btn-primary">Agregar</button>
+           
             <button type="submit" id="btnModificar" name="btnModificar" class="btn btn-danger" >Modificar</button>
             <button type="submit" id="btnEliminar" name="btnEliminar" class="btn btn-dark" >Eliminar</button>      
         </form>
@@ -102,9 +102,9 @@ $usuario = new Usuario();
                                 <option value="id_usuario_pk">ID Usuario</option>
                                 <option value="nombre_tienda">Nombre</option>
                                 <option value="correo">Correo</option>
-                                <option value="fecha_registro">Fecha de registro</option>
+                                
                                 <option value="id_cliente_pk">ID Cliente</option>  
-                                <option value="membresia">Membresía</option>  
+                                
                             </select>
                         </td> 
                         <td>
@@ -123,15 +123,7 @@ $usuario = new Usuario();
         $foot = "</section><section style='position: relative; margin: auto; width: 900px;'><br><br>";
 
         try {
-            if(isset($_POST["btnAgregar"])){
-                $usuario->setIdUsuarioPk($_POST["id_usuario_pk"]);
-                $usuario->setNombreTienda($_POST["nombre_tienda"]);
-                $usuario->setCorreo($_POST["correo"]);
-                $usuario->setFechaRegistro(new DateTime($_POST["fecha_registro"])); 
-                $daoUsuario->crearUsuario($usuario);
-                echo $foot.$daoUsuario->getTabla()."</section>"; 
-                echo "<script>Swal.fire({title: 'Éxito', text: 'Usuario agregado correctamente', icon: 'success'});</script>";
-            } elseif(isset($_POST["btnModificar"])){
+            if(isset($_POST["btnModificar"])){
                 $usuario->setIdUsuarioPk($_POST["id_usuario_pk"]);
                 $usuario->setNombreTienda($_POST["nombre_tienda"]);
                 $usuario->setCorreo($_POST["correo"]);

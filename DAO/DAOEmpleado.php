@@ -242,5 +242,36 @@ class DAOEmpleado {
         $this->desconectar();
         return $empleados;
     }
+    public function obtenerUsuarios() {
+        $this->conectar();
+        $query = "SELECT id_usuario_pk, nombre_tienda FROM tbl_usuario";
+        $result = $this->conect->query($query);
+        
+        // Manejo de errores en la consulta
+        if (!$result) {
+            die("Error en la consulta SQL: " . $this->conect->error);
+        }
+    
+        $usuarios = [];
+        while ($row = $result->fetch_assoc()) {
+            $usuarios[] = $row;
+        }
+        $this->desconectar();
+        return $usuarios;
+    }
+    
+    
+    public function obtenerTiendas() {
+        $this->conectar();
+        $query = "SELECT id_tienda_pk, nombre_tienda FROM tbl_tienda";
+        $result = $this->conect->query($query);
+        $tiendas = [];
+        while ($row = $result->fetch_assoc()) {
+            $tiendas[] = $row;
+        }
+        $this->desconectar();
+        return $tiendas;
+    }
+    
 }
 ?>

@@ -25,24 +25,23 @@ button {
 }
 
 
-.logo img {
+header .logo img {
     max-width: 80px;
     position: absolute;
     left: 20px;
     top: 10px;
 }
+
 h1 {
-    margin: 0;
     font-size: 24px;
-    color: #333;
+    margin: 0;
 }
 
 main {
     padding: 20px;
-    
 }
 
-.productos {
+.contenedor-articulos {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
@@ -51,12 +50,15 @@ main {
 
 .card {
     background-color: white;
-    border: 1px solid #ddd;
     border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     width: 250px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    color: #333;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .card .imagen-producto img {
@@ -81,12 +83,12 @@ main {
 }
 
 .card .precio {
+    font-size: 16px;
     font-weight: bold;
     color: #e53935;
-    font-size: 16px;
 }
 
-.btn-agregar {
+.card .btn-agregar {
     background-color: #007bff;
     color: white;
     border: none;
@@ -94,9 +96,10 @@ main {
     width: 100%;
     cursor: pointer;
     font-size: 14px;
-    border-radius: 5px;
+    border-radius: 0 0 10px 10px;
+    margin-top: 10px;
 }
 
-.btn-agregar:hover {
+.card .btn-agregar:hover {
     background-color: #0056b3;
 }

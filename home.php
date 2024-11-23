@@ -34,10 +34,10 @@
                 <nav id="mainav" class="fl_right"> 
                     <ul class="clear">
                         <li><a href="homeEnglish.html">Ingles</a></li>
-                        <li class="active"><a href="index.html">Producto</a></li>
-                        <li class="active"><a href="index.html">Categorías</a></li>
+                        <li class="active"><a href="vistaCliente.php">Producto</a></li>
+                        <li class="active"><a href="vistaCategorias.php">Categorías</a></li>
                         <li class="active"><a href="logout.php">Cerrar sesión</a></li>
-                        <li class="active"><a href="cart.html"><i class="fas fa-shopping-cart"></i></a></li>
+                        <li class="active"><a href="Carrito.php"><i class="fas fa-shopping-cart"></i></a></li>
                    
                     </ul>
                 </nav>

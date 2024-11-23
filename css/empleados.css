@@ -1,3 +1,4 @@
+/* Ajuste general */
 * {
     margin: 0;
     padding: 0;
@@ -7,13 +8,15 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #161C21;
+    color: white;
     padding: 20px;
 }
 
+/* Encabezado */
 header {
     background-color: #683e64;
     color: white;
-    padding: 20px 20px;
+    padding: 20px;
     text-align: center;
     display: flex;
     align-items: center;
@@ -32,6 +35,7 @@ header {
     margin: 0 auto;
 }
 
+/* Títulos */
 h1 {
     text-align: center;
     margin-bottom: 20px;
@@ -39,18 +43,17 @@ h1 {
 }
 
 h2 {
-    color: #444;
+    color: white;
     margin-bottom: 10px;
 }
 
+/* Formularios */
 .form-container {
-    background-color: #fff;
+    background-color: #683e64; /* Fondo morado */
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 30px; 
 }
-
 
 form {
     display: flex;
@@ -60,30 +63,33 @@ form {
 label {
     font-weight: bold;
     margin-bottom: 5px;
+    color: white;
 }
 
-input[type="text"],
-textarea {
+input, select, textarea {
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
+    color: black; /* Texto negro */
 }
 
-textarea {
-    resize: vertical;
-    min-height: 80px;
-}
-
+/* Botones */
 button {
     padding: 10px;
-    background-color: #28a745;
+    background-color: #28a745; /* Color verde por defecto */
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #218838;
 }
 
 .btn-agregar {
@@ -110,25 +116,42 @@ button {
     background-color: #e9b711d7;
 }
 
+/* Tablas */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
-}
-
-table, th, td {
-    border: 1px solid #ddd;
+    background-color: white;
+    color: black;
+    border-radius: 5px;
 }
 
 th, td {
+    border: 1px solid #ddd;
     padding: 12px;
     text-align: left;
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #683e64; /* Morado */
+    color: white;
 }
 
 tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #f9f9f9; /* Gris claro */
 }
+
+tbody tr:nth-child(odd) {
+    background-color: #ffffff; /* Blanco */
+}
+/* Asegurar que los select y los botones tengan el mismo ancho y altura */
+select {
+    width: 100%; /* Ajustar el ancho al 100% del contenedor */
+    height: 40px; /* Ajustar la altura para que sea igual a la de los botones */
+    padding: 10px; /* Agregar espacio interno para consistencia */
+    font-size: 16px; /* Tamaño de fuente uniforme */
+    border-radius: 5px; /* Bordes redondeados uniformes */
+    border: 1px solid #ccc; /* Bordes suaves */
+    box-sizing: border-box; /* Incluir el padding dentro del ancho y alto */
+}
+

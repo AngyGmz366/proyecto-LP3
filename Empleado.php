@@ -5,8 +5,10 @@ require_once 'BD/empleado.php';
 // Crear una instancia del DAO
 $daoEmpleado = new DAOEmpleado();
 
-// Obtener los datos de los empleados
-$empleados = $daoEmpleado->obtenerEmpleadosConDetalles(); 
+// Obtener los datos de los empleados, usuarios y tiendas
+$empleados = $daoEmpleado->obtenerEmpleadosConDetalles();
+$usuarios = $daoEmpleado->obtenerUsuarios();
+$tiendas = $daoEmpleado->obtenerTiendas(); 
 ?>
 
 <!DOCTYPE html>
@@ -32,6 +34,7 @@ $empleados = $daoEmpleado->obtenerEmpleadosConDetalles();
 
     <div class="container">
 
+        <!-- Formulario para Agregar Empleado -->
         <div class="form-container">
             <h2>Agregar Empleado</h2>
             <form id="agregarEmpleado" method="POST" action="">
@@ -44,51 +47,77 @@ $empleados = $daoEmpleado->obtenerEmpleadosConDetalles();
                     <option value="2">Operario</option> 
                 </select>
 
-                <label for="id_usuario_fk">ID de Usuario:</label>
-                <input type="number" id="id_usuario_fk" name="id_usuario_fk" required>
+                <label for="id_usuario_fk">Seleccionar ID de Usuario:</label>
+                <select id="id_usuario_fk" name="id_usuario_fk" required>
+                    <option value="" disabled selected>Seleccionar un usuario</option>
+                    <?php
+                    foreach ($usuarios as $usuario) {
+                        echo '<option value="' . $usuario['id_usuario_pk'] . '">' . $usuario['id_usuario_pk'] . ' - ' . $usuario['nombre_usuario'] . '</option>';
+                    }
+                    ?>
+                </select>
 
-                <label for="id_tienda_fk">ID de Tienda:</label>
-                <input type="number" id="id_tienda_fk" name="id_tienda_fk" required>
+                <label for="id_tienda_fk">Seleccionar ID de Tienda:</label>
+                <select id="id_tienda_fk" name="id_tienda_fk" required>
+                    <option value="" disabled selected>Seleccionar una tienda</option>
+                    <?php
+                    foreach ($tiendas as $tienda) {
+                        echo '<option value="' . $tienda['id_tienda_pk'] . '">' . $tienda['id_tienda_pk'] . ' - ' . $tienda['nombre_tienda'] . '</option>';
+                    }
+                    ?>
+                </select>
 
                 <button type="submit" class="btn btn-primary" name="bttAgregarEmpleado">Agregar Empleado</button>
             </form>
             <?php
-                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['bttAgregarEmpleado'])) {
-                    $e = new Empleado(null, $_POST['fecha_contratacion'], $_POST['id_tipo_empleado_fk'], $_POST['id_usuario_fk'], $_POST['id_tienda_fk']);
-                    $daoE = new DAOEmpleado();
-                    $daoE->crearEmpleado($e);
-                    // Recargar la página después de agregar un empleado
-                    echo "<script>window.location.href='Empleado.php';</script>"; 
-                    exit();
-                }
+            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['bttAgregarEmpleado'])) {
+                $e = new Empleado(null, $_POST['fecha_contratacion'], $_POST['id_tipo_empleado_fk'], $_POST['id_usuario_fk'], $_POST['id_tienda_fk']);
+                $daoEmpleado->crearEmpleado($e);
+                echo "<script>window.location.href='Empleado.php';</script>"; 
+                exit();
+            }
             ?>
         </div>
 
+        <!-- Formulario para Eliminar Empleado -->
         <div class="form-container">
             <h2>Eliminar Empleado</h2>
             <form id="eliminarEmpleado" method="POST" action="">
-                <label for="id_empleado_pk">ID del Empleado a Eliminar:</label>
-                <input type="number" id="id_empleado_pk" name="id_empleado_pk" required>
+                <label for="id_empleado_pk">Seleccionar ID del Empleado:</label>
+                <select id="id_empleado_pk" name="id_empleado_pk" required>
+                    <option value="" disabled selected>Seleccionar un empleado</option>
+                    <?php
+                    foreach ($empleados as $empleado) {
+                        echo '<option value="' . $empleado['id_empleado_pk'] . '">' . $empleado['id_empleado_pk'] . ' - ' . $empleado['nombre_usuario'] . '</option>';
+                    }
+                    ?>
+                </select>
 
                 <button type="submit" class="btn btn-danger" name="bttEliminarEmpleado">Eliminar Empleado</button>
             </form>
             <?php
-                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['bttEliminarEmpleado'])) {
-                    $id = $_POST['id_empleado_pk'];
-                    $daoE = new DAOEmpleado();
-                    $daoE->eliminarEmpleado($id);
-                    // Recargar la página después de eliminar un empleado
-                    echo "<script>window.location.href='Empleado.php';</script>"; 
-                    exit();
-                }
+            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['bttEliminarEmpleado'])) {
+                $id = $_POST['id_empleado_pk'];
+                $daoEmpleado->eliminarEmpleado($id);
+                echo "<script>window.location.href='Empleado.php';</script>"; 
+                exit();
+            }
             ?>
         </div>
 
+        <!-- Formulario para Actualizar Empleado -->
         <div class="form-container">
             <h2>Actualizar Empleado</h2>
             <form id="actualizarEmpleado" method="POST" action="">
-                <label for="id_empleado_pk">ID del Empleado:</label>
-                <input type="number" id="id_empleado_pk_actualizar" name="id_empleado_pk" readonly> 
+                <label for="id_empleado_pk_actualizar">Seleccionar ID del Empleado:</label>
+                <select id="id_empleado_pk_actualizar" name="id_empleado_pk" required>
+                    <option value="" disabled selected>Seleccionar un empleado</option>
+                    <?php
+                    foreach ($empleados as $empleado) {
+                        echo '<option value="' . $empleado['id_empleado_pk'] . '">' . $empleado['id_empleado_pk'] . ' - ' . $empleado['nombre_usuario'] . '</option>';
+                    }
+                    ?>
+                </select>
 
                 <label for="fecha_contratacion">Nueva Fecha de Contratación:</label>
                 <input type="date" id="fecha_contratacion_actualizar" name="fecha_contratacion" required>
@@ -99,27 +128,40 @@ $empleados = $daoEmpleado->obtenerEmpleadosConDetalles();
                     <option value="2">Operario</option> 
                 </select>
 
-                <label for="id_usuario_fk">Nuevo ID de Usuario:</label>
-                <input type="number" id="id_usuario_fk_actualizar" name="id_usuario_fk" required>
+                <label for="id_usuario_fk_actualizar">Nuevo ID de Usuario:</label>
+                <select id="id_usuario_fk_actualizar" name="id_usuario_fk" required>
+                    <option value="" disabled selected>Seleccionar un usuario</option>
+                    <?php
+                    foreach ($usuarios as $usuario) {
+                        echo '<option value="' . $usuario['id_usuario_pk'] . '">' . $usuario['id_usuario_pk'] . ' - ' . $usuario['nombre_usuario'] . '</option>';
+                    }
+                    ?>
+                </select>
 
-                <label for="id_tienda_fk">Nuevo ID de Tienda:</label>
-                <input type="number" id="id_tienda_fk_actualizar" name="id_tienda_fk" required>
+                <label for="id_tienda_fk_actualizar">Nueva Tienda:</label>
+                <select id="id_tienda_fk_actualizar" name="id_tienda_fk" required>
+                    <option value="" disabled selected>Seleccionar una tienda</option>
+                    <?php
+                    foreach ($tiendas as $tienda) {
+                        echo '<option value="' . $tienda['id_tienda_pk'] . '">' . $tienda['id_tienda_pk'] . ' - ' . $tienda['nombre_tienda'] . '</option>';
+                    }
+                    ?>
+                </select>
 
                 <button type="submit" class="btn btn-warning" name="bttActualizarEmpleado">Actualizar Empleado</button>
             </form>
             <?php
-                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['bttActualizarEmpleado'])) {
-                    $e = new Empleado($_POST['id_empleado_pk'], $_POST['fecha_contratacion'], $_POST['id_tipo_empleado_fk'], $_POST['id_usuario_fk'], $_POST['id_tienda_fk']);
-                    $daoE = new DAOEmpleado();
-                    $daoE->actualizarEmpleado($e);
-                    // Recargar la página después de actualizar un empleado
-                    echo "<script>window.location.href='Empleado.php';</script>"; 
-                    exit();
-                }
+            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['bttActualizarEmpleado'])) {
+                $e = new Empleado($_POST['id_empleado_pk'], $_POST['fecha_contratacion'], $_POST['id_tipo_empleado_fk'], $_POST['id_usuario_fk'], $_POST['id_tienda_fk']);
+                $daoEmpleado->actualizarEmpleado($e);
+                echo "<script>window.location.href='Empleado.php';</script>"; 
+                exit();
+            }
             ?>
         </div>
 
-        <div class="table-container">  
+        <!-- Tabla de Empleados -->
+        <div class="table-container">
             <table class='table table-dark'>
                 <thead class='thead thead-light'>
                     <tr>

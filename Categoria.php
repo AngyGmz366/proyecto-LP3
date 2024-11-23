@@ -61,14 +61,28 @@ require_once 'BD/categoria.php';
         <div class="form-container">
             <h2>Eliminar Categoría</h2>
             <form id="eliminarCategoria" method="POST" action="">
-                <label for="idEliminar">Id de la Categoría a Eliminar:</label>
-                <input type="text" id="idCategoria" name="idCategoria" required>
+                <label for="idCategoriaEliminar">Seleccionar Id de la Categoría:</label>
+                <select id="idCategoriaEliminar" name="idCategoriaEliminar" required>
+                 <option value="" disabled selected>Seleccionar una categoría</option>
+                 <?php
+                 // Instancia del DAO y obtención de categorías
+                 $daoCategoria = new DAOCategoria();
+                 $categorias = $daoCategoria->obtenerTodasLasCategorias();
+
+                 // Iterar sobre las categorías para generar las opciones del menú
+                     foreach ($categorias as $categoria) {
+                        echo '<option value="' . $categoria->getIdCategoriaPk() . '">'
+                        . $categoria->getIdCategoriaPk() . ' - ' . $categoria->getNombreCategoria()
+                        . '</option>';
+                   }
+                  ?>
+               </select>
 
                 <button type="submit" class="btn-eliminar" name="bttEliminarCategoria">Eliminar Categoría</button>
             </form>
             <?php
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['bttEliminarCategoria'])) {
-                    $id = $_POST['idCategoria'];
+                    $id = $_POST['idCategoriaEliminar'];
                     $cc = new DAOCategoria();
                     $cc->eliminarCategoria($id);
                     header("Location: #categoria.php");
@@ -81,8 +95,17 @@ require_once 'BD/categoria.php';
         <div class="form-container">
             <h2>Actualizar Categoría</h2>
             <form id="actualizarCategoria" method="POST" action="">
-                <label for="idActualizar">Id:</label>
-                <input type="text" id="idActualizar" name="idActualizar" required>
+                <label for="idCategoriaActualizar">Seleccionar Id de la Categoría:</label>
+                <select id="idCategoriaActualizar" name="idCategoriaActualizar" required>
+                  <option value="" disabled selected>Seleccionar una categoría</option>
+                  <?php
+                    foreach ($categorias as $categoria) {
+                        echo '<option value="' . $categoria->getIdCategoriaPk() . '">'
+                      . $categoria->getIdCategoriaPk() . ' - ' . $categoria->getNombreCategoria()
+                      . '</option>';
+                    }
+                  ?>
+              </select>
 
                 <label for="nombreActualizar">Nuevo Nombre:</label>
                 <input type="text" id="nombreActualizar" name="nombreActualizar" required>
@@ -94,7 +117,7 @@ require_once 'BD/categoria.php';
             </form>
             <?php
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['bttActualizarCategoria'])) {
-                    $c = new Categoria($_POST['idActualizar'], $_POST['nombreActualizar'], $_POST['descripcionActualizar']);
+                    $c = new Categoria($_POST['idCategoriaActualizar'], $_POST['nombreActualizar'], $_POST['descripcionActualizar']);
                     $cc = new DAOCategoria();
                     $cc->actualizarCategoria($c);
                     header("Location: #categoria.php");

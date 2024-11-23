@@ -30,49 +30,75 @@ main {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Estilos del Contenedor de Formularios */
+.form-container {
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor de Agregar Artículo */
+.form-container.agregar {
+    background-color: #e8f5e9; /* Verde claro */
+    border-left: 5px solid #4caf50; /* Verde */
+}
+
+.form-container.agregar h2 {
+    color: #388e3c;
+}
+
+/* Contenedor de Actualizar Artículo */
+.form-container.actualizar {
+    background-color: #fff8e1; /* Amarillo claro */
+    border-left: 5px solid #ffb300; /* Amarillo */
+}
+
+.form-container.actualizar h2 {
+    color: #f57c00;
+}
+
+/* Contenedor de Eliminar Artículo */
+.form-container.eliminar {
+    background-color: #ffebee; /* Rojo claro */
+    border-left: 5px solid #e53935; /* Rojo */
+}
+
+.form-container.eliminar h2 {
+    color: #c62828;
+}
+
 /* Estilos del Formulario */
 form {
-    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 form label {
-    display: block;
-    margin: 10px 0 5px;
     font-weight: bold;
+    margin-bottom: 5px;
 }
 
 form input[type="text"],
-form input[type="number"] {
-    width: calc(100% - 20px);
+form input[type="number"],
+form textarea,
+form select {
     padding: 10px;
-    margin: 5px 0 15px;
+    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-size: 16px;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
 }
 
 form input[type="file"] {
     margin-top: 5px;
 }
 
-form img#preview {
-    display: block;
-    width: 100px;
-    height: auto;
-    margin-top: 10px;
-    border: 1px solid #ddd;
-    padding: 5px;
-    border-radius: 8px;
-}
-
-form button {
-    padding: 10px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
 button {
     padding: 10px;
     background-color: #28a745;
@@ -83,20 +109,30 @@ button {
     font-size: 16px;
 }
 
-
-form button:hover {
-    background-color: #45a049;
+/* Botones específicos */
+button.btn-agregar {
+    background-color: #388e3c;
 }
 
-form select {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin: 5px 0 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
+button.btn-agregar:hover {
+    background-color: #388e3c;
 }
 
+button.btn-actualizar {
+    background-color: #ffb300;
+}
+
+button.btn-actualizar:hover {
+    background-color: #f57c00;
+}
+
+button.btn-eliminar {
+    background-color: #e53935;
+}
+
+button.btn-eliminar:hover {
+    background-color: #c62828;
+}
 
 /* Table Styles */
 table {
@@ -128,21 +164,4 @@ table td img {
     width: 50px;
     height: auto;
     border-radius: 4px;
-}
-
-button.action-btn {
-    padding: 5px 10px;
-    margin: 2px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    color: white;
-}
-
-button.delete-btn {
-    background-color: #e74c3c;
-}
-
-button.stock-btn {
-    background-color: #3498dbfd;
 }
