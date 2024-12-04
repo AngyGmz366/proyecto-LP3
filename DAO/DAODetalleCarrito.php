@@ -101,5 +101,87 @@ class DAODetalleCarrito {
         
         return $resultado === TRUE;
     }
+    public function obtenerDetallePorArticuloYCarrito($idCarrito, $idArticulo) {
+        $this->conectar();
+    
+        // Consulta para verificar si ya existe el artículo en el carrito
+        $query = "SELECT * FROM tbl_detalle_carrito 
+                  WHERE id_carrito_fk = '$idCarrito' AND id_articulo_fk = '$idArticulo'";
+        $result = $this->conect->query($query);
+    
+        if ($result->num_rows > 0) {
+            // Si existe, devolver el detalle como un objeto DetalleCarrito
+            $fila = $result->fetch_assoc();
+            $detalleCarrito = new DetalleCarrito(
+                $fila['id_detalle_carrito_pk'], // Clave primaria
+                $fila['cantidad'],             // Cantidad actual
+                $fila['id_articulo_fk'],       // ID del artículo
+                $fila['id_carrito_fk']         // ID del carrito
+            );
+            $this->desconectar();
+            return $detalleCarrito;
+        } else {
+            $this->desconectar();
+            return null; // No existe el detalle
+        }
+    }
+    
+    public function obtenerDetallesPorCarrito($idCarrito) {
+        $this->conectar();
+    
+        // Escapar el valor de idCarrito para evitar inyección SQL
+        $idCarrito = $this->conect->real_escape_string($idCarrito);
+    
+        // Consulta SQL corregida
+        $query = "SELECT dc.id_detalle_carrito_pk, dc.cantidad, a.nombre_articulo AS nombreArticulo, a.precio_unitario AS precio
+                  FROM tbl_detalle_carrito dc
+                  INNER JOIN tbl_articulo a ON dc.id_articulo_fk = a.id_articulo_pk
+                  WHERE dc.id_carrito_fk = '$idCarrito'";
+
+        // Ejecutar la consulta
+        $result = $this->conect->query($query);
+    
+        // Verificar si la consulta falló
+        if (!$result) {
+            die("Error en la consulta SQL: " . $this->conect->error . " - Consulta: " . $query);
+        }
+    
+        // Procesar los resultados
+        $detalles = [];
+        if ($result->num_rows > 0) {
+            while ($fila = $result->fetch_assoc()) {
+                $detalles[] = [
+                    'idDetalle' => $fila['id_detalle_carrito_pk'],
+                    'cantidad' => $fila['cantidad'],
+                    'nombreArticulo' => $fila['nombreArticulo'],
+                    'precio' => $fila['precio']
+                ];
+            }
+        }
+    
+        $this->desconectar();
+        return $detalles;
+    }
+
+    public function vaciarCarrito($idCarrito) {
+        $this->conectar();
+    
+        // Escapar el valor de idCarrito para evitar inyección SQL
+        $idCarrito = $this->conect->real_escape_string($idCarrito);
+    
+        // Consulta para eliminar todos los detalles del carrito
+        $query = "DELETE FROM tbl_detalle_carrito WHERE id_carrito_fk = '$idCarrito'";
+        $resultado = $this->conect->query($query);
+    
+        // Verificar si la consulta fue exitosa
+        if (!$resultado) {
+            die("Error al vaciar el carrito: " . $this->conect->error);
+        }
+    
+        $this->desconectar();
+        return true;
+    }
+    
+    
 }
 ?>

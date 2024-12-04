@@ -1,0 +1,110 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #161C21;
+    color: #333;
+}
+
+header {
+    background: linear-gradient(to right, #a526ab, #ff5f94); /* Fondo degradado */
+    padding: 10px; /* Reducir padding para hacerlo más compacto */
+    text-align: center;
+    color: white;
+    font-size: 18px; /* Reducir tamaño de la fuente */
+    font-weight: bold;
+    position: relative;
+}
+
+header .logo {
+    position: absolute;
+    left: 20px;
+    top: 5px; /* Ajustar la posición superior */
+}
+
+header .logo img {
+    max-width: 100px; /* Reducir el tamaño de la imagen */
+    border-radius: 50%;
+}
+button {
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px; /* Espacio adicional para bajar el botón */
+}
+
+.factura {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #343a40;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.factura h2 {
+    text-align: center;
+    color: #ffc107;
+    margin-bottom: 20px;
+}
+
+.factura-info label {
+    display: block;
+    margin: 10px 0 5px;
+    color: #adb5bd;
+}
+
+.factura-info input, .factura-info select, .factura-info button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 5px;
+}
+
+.factura-info input {
+    background-color: #495057;
+    color: #fff;
+}
+
+.factura-info select {
+    background-color: #495057;
+    color: #fff;
+}
+
+.factura-info button {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.factura-info button:hover {
+    background-color: #0056b3;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: #495057;
+    color: #fff;
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #343a40;
+}
+
+table th {
+    background-color: #6c757d;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #343a40;
+}

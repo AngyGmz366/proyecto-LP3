@@ -26,8 +26,8 @@ class DAOCarrito {
             while ($fila = $result->fetch_assoc()) {
                 $carritos[] = new Carrito(
                     $fila['id_carrito_pk'],
-                    $fila['id_usuario_fk'],
-                    $fila['fecha_creacion']
+                    $fila['id_cliente_fk']
+                    
                 );
             }
         }
@@ -35,127 +35,90 @@ class DAOCarrito {
         return $carritos;
     }
 
-    // Crear un carrito
-    public function crearCarrito($carrito) {
+    public function crearCarrito() {
         $this->conectar();
-        $id_usuario_fk = $this->conect->real_escape_string($carrito->getIdUsuarioFk());
-        $fecha_creacion = $this->conect->real_escape_string($carrito->getFechaCreacion());
-
-        $query = "INSERT INTO tbl_carrito (id_usuario_fk, fecha_creacion) VALUES ('$id_usuario_fk', '$fecha_creacion')";
+    
+        // Consulta para insertar un nuevo carrito
+        $query = "INSERT INTO tbl_carrito (id_cliente_fk) VALUES (NULL)"; 
         $resultado = $this->conect->query($query);
+    
+        // Verificar si ocurrió un error al ejecutar la consulta
+        if (!$resultado) {
+            error_log("Error en crearCarrito: " . $this->conect->error); 
+        }
+    
         $this->desconectar();
-        return $resultado === TRUE;
+        return $resultado; // Retorna true si la consulta fue exitosa, false de lo contrario
     }
-
-    // Obtener un carrito por ID
+    
+    
     public function obtenerCarritoPorId($id_carrito_pk) {
         $this->conectar();
-        $id_carrito_pk = $this->conect->real_escape_string($id_carrito_pk);
-        $query = "SELECT * FROM tbl_carrito WHERE id_carrito_pk = '$id_carrito_pk'";
-        $result = $this->conect->query($query);
+    
+        // Prepara la consulta para evitar inyección SQL
+        $query = "SELECT * FROM tbl_carrito WHERE id_carrito_pk = ?";
+        $stmt = $this->conect->prepare($query);
+        $stmt->bind_param("i", $id_carrito_pk); // 'i' indica un entero
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
         if ($result->num_rows > 0) {
             $fila = $result->fetch_assoc();
-            $carrito = new Carrito(
-                $fila['id_carrito_pk'],
-                $fila['id_usuario_fk'],
-                $fila['fecha_creacion']
-            );
+            $carrito = new Carrito($fila['id_carrito_pk'], $fila['id_cliente_fk']); // Ajusta según tu clase Carrito
             $this->desconectar();
             return $carrito;
         } else {
             $this->desconectar();
-            return null;
+            return null; // No se encontró el carrito
         }
     }
-
-    // Actualizar carrito
     public function actualizarCarrito($carrito) {
         $this->conectar();
-        $id_carrito_pk = $this->conect->real_escape_string($carrito->getIdCarritoPk());
-        $id_usuario_fk = $this->conect->real_escape_string($carrito->getIdUsuarioFk());
-        $fecha_creacion = $this->conect->real_escape_string($carrito->getFechaCreacion());
-
-        $query = "UPDATE tbl_carrito SET id_usuario_fk = '$id_usuario_fk', fecha_creacion = '$fecha_creacion' WHERE id_carrito_pk = '$id_carrito_pk'";
-        $resultado = $this->conect->query($query);
+    
+        // Prepara la consulta para actualizar el carrito
+        $query = "UPDATE tbl_carrito SET id_cliente_fk = ? WHERE id_carrito_pk = ?";
+        $stmt = $this->conect->prepare($query);
+        $stmt->bind_param("ii", $carrito->getIdUsuarioFk(), $carrito->getIdCarritoPk());
+    
+        $resultado = $stmt->execute();
         $this->desconectar();
-        return $resultado === TRUE;
+        return $resultado; // Retorna true si la actualización fue exitosa
     }
-
-    // Eliminar carrito
     public function eliminarCarrito($id_carrito_pk) {
         $this->conectar();
-        $id_carrito_pk = $this->conect->real_escape_string($id_carrito_pk);
-        $query = "DELETE FROM tbl_carrito WHERE id_carrito_pk = '$id_carrito_pk'";
-        $resultado = $this->conect->query($query);
+    
+        // Prepara la consulta para eliminar el carrito
+        $query = "DELETE FROM tbl_carrito WHERE id_carrito_pk = ?";
+        $stmt = $this->conect->prepare($query);
+        $stmt->bind_param("i", $id_carrito_pk);
+    
+        $resultado = $stmt->execute();
         $this->desconectar();
-        return $resultado === TRUE;
+        return $resultado; // Retorna true si la eliminación fue exitosa
     }
+        
 
-    // ** NUEVO: Agregar producto al carrito **
-    public function agregarProductoAlCarrito($idCarrito, $idArticulo, $cantidad) {
+    
+   
+
+    public function obtenerCarritoActual() {
         $this->conectar();
     
-        // Verificar si el producto ya está en el carrito
-        $queryCheck = "SELECT * FROM tbl_detalle_carrito WHERE id_carrito_fk = '$idCarrito' AND id_articulo_fk = '$idArticulo'";
-        $result = $this->conect->query($queryCheck);
-    
-        if ($result === false) {
-            file_put_contents('debug.log', "Error en consulta: " . $this->conect->error . PHP_EOL, FILE_APPEND);
-            $this->desconectar();
-            return false;
-        }
-    
-        if ($result->num_rows > 0) {
-            // Si el producto ya está en el carrito, actualizar cantidad
-            $queryUpdate = "UPDATE tbl_detalle_carrito SET cantidad = cantidad + $cantidad 
-                            WHERE id_carrito_fk = '$idCarrito' AND id_articulo_fk = '$idArticulo'";
-            if (!$this->conect->query($queryUpdate)) {
-                file_put_contents('debug.log', "Error en update: " . $this->conect->error . PHP_EOL, FILE_APPEND);
-            }
-        } else {
-            // Si el producto no está en el carrito, agregarlo
-            $queryInsert = "INSERT INTO tbl_detalle_carrito (id_carrito_fk, id_articulo_fk, cantidad) 
-                            VALUES ('$idCarrito', '$idArticulo', '$cantidad')";
-            if (!$this->conect->query($queryInsert)) {
-                file_put_contents('debug.log', "Error en insert: " . $this->conect->error . PHP_EOL, FILE_APPEND);
-            }
-        }
-    
-        $this->desconectar();
-    }
-    // ** NUEVO: Obtener productos del carrito **
-    public function obtenerProductosDelCarrito($idCarrito) {
-        $this->conectar();
-        $query = "SELECT dc.id_detalle_carrito_pk, dc.cantidad, dc.id_articulo_fk, a.nombre_articulo, a.precio_unitario 
-                  FROM tbl_detalle_carrito dc 
-                  JOIN tbl_articulo a ON dc.id_articulo_fk = a.id_articulo_pk 
-                  WHERE dc.id_carrito_fk = '$idCarrito'";
+        $query = "SELECT * FROM tbl_carrito ORDER BY id_carrito_pk DESC LIMIT 1";
         $result = $this->conect->query($query);
-
-        $productos = [];
+    
         if ($result->num_rows > 0) {
-            while ($fila = $result->fetch_assoc()) {
-                $productos[] = [
-                    'id_detalle' => $fila['id_detalle_carrito_pk'],
-                    'id_articulo' => $fila['id_articulo_fk'],
-                    'nombre' => $fila['nombre_articulo'],
-                    'cantidad' => $fila['cantidad'],
-                    'precio_unitario' => $fila['precio_unitario'],
-                    'subtotal' => $fila['cantidad'] * $fila['precio_unitario']
-                ];
-            }
+            $fila = $result->fetch_assoc();
+            $carrito = new Carrito($fila['id_carrito_pk'], $fila['id_cliente_fk']); // Ajusta según tu clase Carrito
+            $this->desconectar();
+            return $carrito;
+        } else {
+            $this->desconectar();
+            return null; // No existe un carrito actual
         }
-        $this->desconectar();
-        return $productos;
     }
 
-    // ** NUEVO: Eliminar producto del carrito **
-    public function eliminarProductoDelCarrito($idCarrito, $idArticulo) {
-        $this->conectar();
-        $query = "DELETE FROM tbl_detalle_carrito WHERE id_carrito_fk = '$idCarrito' AND id_articulo_fk = '$idArticulo'";
-        $resultado = $this->conect->query($query);
-        $this->desconectar();
-        return $resultado === TRUE;
-    }
+    
+    
 }
 ?>

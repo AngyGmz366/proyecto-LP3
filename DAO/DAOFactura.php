@@ -125,6 +125,9 @@ class DAOFactura {
 
         return $resultado === TRUE;
     }
+    public function obtenerUltimoIdInsertado() {
+        return $this->conect->insert_id;
+    }
 }
 
 ?>

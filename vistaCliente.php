@@ -19,6 +19,7 @@ ob_start();
         <img src="./image/logo.png" alt="Logo">
     </div>
     <h1>¡Compra nuestros productos!</h1>
+   
 </header>
 <button onclick="window.location.href='home.php'">Volver</button>
 
@@ -50,7 +51,12 @@ ob_start();
                 echo '<h3>' . $a->getNombreArticulo() . '</h3>';
                 echo '<p>' . $a->getDescripcion() . '</p>';
                 echo '<p class="precio">$' . number_format($a->getPrecioUnitario(), 2) . '</p>';
-                echo '<button class="btn-agregar" onclick="agregarAlCarrito(' . $a->getIdArticuloPk() . ')">Agregar al carrito</button>';
+                // Botón para agregar al carrito
+                echo "<form method='POST' action='Carrito.php'>";
+                echo "<input type='hidden' name='id_articulo' value='" . $a->getIdArticuloPk() . "'>";
+                echo "<input type='hidden' name='cantidad' value='1'>";
+                echo "<button type='submit' class='btn-agregar'>Agregar al carrito</button>";
+                echo "</form>";
                 echo '</div>';
                 echo '</div>';
             }
@@ -87,7 +93,7 @@ ob_start();
             alert('Hubo un problema al agregar el producto al carrito.');
         });
    }
-
+ 
     
 </script>
 </body>

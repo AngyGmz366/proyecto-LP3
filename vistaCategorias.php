@@ -2,7 +2,8 @@
 require_once 'DAO/DAOCategoria.php'; 
 require_once 'BD/articulo.php'; 
 require_once 'DAO/DAOArticulo.php';
-require_once 'BD/informacion.php';   
+require_once 'BD/informacion.php';  
+session_start(); // Iniciar sesión para acceder a $_SESSION 
 ob_start();
 ?>
 <!DOCTYPE html>
@@ -12,6 +13,7 @@ ob_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El Rincón del Coleccionista</title>
     <link rel="stylesheet" href="./css/categoriasVista.css">
+    
 </head>
 <body>
     <header>
@@ -73,7 +75,12 @@ ob_start();
                     echo "<h3>" . $articulo->getNombreArticulo() . "</h3>";
                     echo "<p>" . $articulo->getDescripcion() . "</p>";
                     echo "<p class='precio'>$" . number_format($articulo->getPrecioUnitario(), 2) . "</p>";
-                    echo "<button class='btn-agregar' onclick='agregarAlCarrito(" . $articulo->getIdArticuloPk() . ")'>Agregar al carrito</button>";
+                    // Botón para agregar al carrito
+                    echo "<form method='POST' action='Carrito.php'>";
+                    echo "<input type='hidden' name='id_articulo' value='" . $articulo->getIdArticuloPk() . "'>";
+                    echo "<input type='hidden' name='cantidad' value='1'>";
+                    echo "<button type='submit' class='btn-agregar'>Agregar al carrito</button>";
+                    echo "</form>";
                     echo "</div>";
                     echo "</div>";
                 }
@@ -100,10 +107,7 @@ ob_start();
             });
         }
 
-        function agregarAlCarrito(idProducto) {
-            alert('Producto ' + idProducto + ' agregado al carrito.');
-            // Aquí puedes usar AJAX o redirigir a otra página para agregar el producto.
-        }
+
     </script>
 </body>
 </html>

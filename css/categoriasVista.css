@@ -7,10 +7,24 @@ body {
 }
 
 header {
-    background-color: #B946AD;
-    color: white;
-    padding: 1em;
+    background: linear-gradient(to right, #a526ab, #ff5f94); /* Fondo degradado */
+    padding: 20px;
     text-align: center;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    position: relative;
+}
+
+header .logo {
+    position: absolute;
+    left: 20px;
+    top: 10px;
+}
+
+header .logo img {
+    max-width: 60px;
+    border-radius: 50%;
 }
 
 button {
@@ -23,15 +37,6 @@ button {
     font-size: 16px;
     margin-top: 20px; /* Espacio adicional para bajar el botón */
 }
-
-
-header .logo img {
-    max-width: 80px;
-    position: absolute;
-    left: 20px;
-    top: 10px;
-}
-
 h1 {
     font-size: 24px;
     margin: 0;
