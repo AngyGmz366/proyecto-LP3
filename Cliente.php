@@ -66,7 +66,7 @@ $usuario = new Usuario();
     </script>   
 </head>
 <body>
-<header>
+   <header>
         <div class="logo">
             <img src="./image/logo.png" alt="Logo de la Empresa">
         </div>

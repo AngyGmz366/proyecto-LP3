@@ -1,0 +1,81 @@
+/* General */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #161C21;
+    color: white;
+    padding: 20px;
+    margin: 0;
+}
+
+h1, h2, p {
+    text-align: center;
+    color: white;
+}
+
+/* Contenedor principal */
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas iguales */
+    gap: 20px; /* Espacio entre los gráficos */
+    align-items: center; /* Centrar verticalmente */
+    justify-items: center; /* Centrar horizontalmente */
+}
+
+/* Cada sección de estadísticas */
+.estadistica {
+    width: 80%; /* Ocupa el 80% del ancho del contenedor */
+    text-align: center;
+}
+
+/* Canvas (Gráficos) */
+canvas {
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+    height: 400px; /* Aumentar la altura */
+    margin: 0 auto;
+    background-color: #292C35;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* Encabezado */
+header {
+    background-color: #472d4f;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.logo img {
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    max-height: 60px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 1.8em;
+}
+
+/* Botón */
+button {
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px; /* Espacio adicional para bajar el botón */
+}
+
+button:hover {
+    background-color: #472d4f;
+}
+

@@ -56,60 +56,7 @@ ob_start();
 </form>
 
 <main>
-    <!-- Tabla de Artículos -->
-    <section>
-        <h2>Lista de Artículos</h2>
-        <table id="tablaArticulos">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Código</th>
-                    <th>Descripción</th>
-                    <th>Precio</th>
-                    <th>Cantidad</th>
-                    <th>Categoría</th>
-                    <th>Imagen</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $daoArticulo = new DAOArticulo();
-                $articulos = $daoArticulo->obtenerTodosLosArticulos();
-
-                if ($articulos) {
-                    foreach ($articulos as $a) {
-                        echo "<tr>";
-                        echo "<td>" . $a->getNombreArticulo() . "</td>";
-                        echo "<td>" . $a->getIdArticuloPk() . "</td>";
-                        echo "<td>" . $a->getDescripcion() . "</td>";
-                        echo "<td>" . $a->getPrecioUnitario() . "</td>";
-                        echo "<td>" . $a->getInventario() . "</td>";
-
-                        // Obtener categoría
-                        $daoCategoria = new DAOCategoria();
-                        $categoria = $daoCategoria->obtenerCategoriaPorId($a->getIdCategoriaFk());
-                        echo "<td>" . ($categoria ? $categoria->getNombreCategoria() : "N/D") . "</td>";
-
-                        // Obtener imagen
-                        $conect = new mysqli(SERVIDOR, USUARIO, CLAVE, BD);
-                        $resultado = $conect->query("SELECT * FROM tbl_imagenes_articulos WHERE id_articulo_fk = " . $a->getIdArticuloPk());
-                        if ($resultado->num_rows > 0) {
-                            $imagen = $resultado->fetch_assoc();
-                            echo "<td><img src='" . $imagen['url_imagen'] . "' width='75' height='75'></td>";
-                        } else {
-                            echo "<td>N/D</td>";
-                        }
-                        $conect->close();
-
-                        echo "</tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='7'>No hay artículos disponibles.</td></tr>";
-                }
-                ?>
-            </tbody>
-        </table>
-    </section>
+  
 
     <!-- Formulario para Agregar Nuevo Artículo -->
     <section>
@@ -295,6 +242,60 @@ ob_start();
        }
      ?>
    </section>
+     <!-- Tabla de Artículos -->
+     <section>
+        <h2>Lista de Artículos</h2>
+        <table id="tablaArticulos">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Código</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Categoría</th>
+                    <th>Imagen</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $daoArticulo = new DAOArticulo();
+                $articulos = $daoArticulo->obtenerTodosLosArticulos();
+
+                if ($articulos) {
+                    foreach ($articulos as $a) {
+                        echo "<tr>";
+                        echo "<td>" . $a->getNombreArticulo() . "</td>";
+                        echo "<td>" . $a->getIdArticuloPk() . "</td>";
+                        echo "<td>" . $a->getDescripcion() . "</td>";
+                        echo "<td>" . $a->getPrecioUnitario() . "</td>";
+                        echo "<td>" . $a->getInventario() . "</td>";
+
+                        // Obtener categoría
+                        $daoCategoria = new DAOCategoria();
+                        $categoria = $daoCategoria->obtenerCategoriaPorId($a->getIdCategoriaFk());
+                        echo "<td>" . ($categoria ? $categoria->getNombreCategoria() : "N/D") . "</td>";
+
+                        // Obtener imagen
+                        $conect = new mysqli(SERVIDOR, USUARIO, CLAVE, BD);
+                        $resultado = $conect->query("SELECT * FROM tbl_imagenes_articulos WHERE id_articulo_fk = " . $a->getIdArticuloPk());
+                        if ($resultado->num_rows > 0) {
+                            $imagen = $resultado->fetch_assoc();
+                            echo "<td><img src='" . $imagen['url_imagen'] . "' width='75' height='75'></td>";
+                        } else {
+                            echo "<td>N/D</td>";
+                        }
+                        $conect->close();
+
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='7'>No hay artículos disponibles.</td></tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </section>
 </main>
 
 <script src="./front-end/scripts/articulos.js"></script>

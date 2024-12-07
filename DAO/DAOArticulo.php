@@ -106,5 +106,25 @@ class DAOArticulo {
         
         return $resultado === TRUE;
     }
+    public function obtenerTotalArticulos() {
+        $this->conectar();
+        $query = "SELECT COUNT(*) AS total FROM tbl_articulo";
+        $result = $this->conect->query($query);
+        $fila = $result->fetch_assoc();
+        $this->desconectar();
+        return $fila['total'];
+    }
+    public function articulosPorCategoria() {
+        $this->conectar();
+        $query = "SELECT id_categoria_fk, COUNT(*) AS cantidad FROM tbl_articulo GROUP BY id_categoria_fk";
+        $result = $this->conect->query($query);
+        $datos = [];
+        while ($fila = $result->fetch_assoc()) {
+            $datos[] = $fila;
+        }
+        $this->desconectar();
+        return $datos;
+    }
+        
 }
 ?>

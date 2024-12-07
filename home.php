@@ -49,7 +49,12 @@
                 <article>
                     <h3 class="heading">¡BIENVENIDO A TU RINCÓN!</h3>
                     <p>Encuentra tesoros ocultos y vuélvete un coleccionista.</p>
-                    <footer><a class="btn" href="#">Más información</a></footer>
+                    <footer>
+                     <a class="btn" href="https://www.google.com/maps?q=14.092816,-87.183601" target="_blank">Más información</a>
+                    </footer>
+
+
+
                 </article>
             </div>
         </div>

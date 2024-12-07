@@ -30,12 +30,12 @@
                 </div>
                 <nav id="mainav" class="fl_right"> 
                     <ul class="clear">
-                        <li><a href="homeEnglish.html">Ingles</a></li>
+                        
                         <li class="active"><a href="Articulo.php">Producto</a></li>
                         <li class="active"><a href="Categoria.php">Categorías</a></li>
                         <li class="active"><a href="Cliente.php">Clientes</a></li>
                         <li class="active"><a href="Empleado.php">Empleados</a></li>
-                        <li class="active"><a href="logs.php">Perfil</a>
+                        <li class="active"><a href="Log.php">Estadisticas</a>
                         <li class="active"><a href="logout.php">Cerrar sesión</a></li>
                         
                     </ul>
@@ -48,7 +48,10 @@
                 <article>
                     <h3 class="heading">¡BIENVENIDO A TU RINCÓN!</h3>
                     <p>Encuentra tesoros ocultos y vuélvete un coleccionista.</p>
-                    <footer><a class="btn" href="#">Más información</a></footer>
+                    <footer>
+                     <a class="btn" href="https://www.google.com/maps?q=14.092816,-87.183601" target="_blank">Más información</a>
+                    </footer>
+
                 </article>
             </div>
         </div>

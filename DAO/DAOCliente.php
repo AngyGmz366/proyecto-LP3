@@ -127,4 +127,24 @@ class DAOCliente {
         $this->desconectar();
         return $tabla;
     }
+    public function obtenerTotalClientes() {
+        $this->conectar();
+        $query = "SELECT COUNT(*) AS total FROM tbl_cliente";
+        $result = $this->conect->query($query);
+        $fila = $result->fetch_assoc();
+        $this->desconectar();
+        return $fila['total'];
+    }
+    public function clientesPorMembresia() {
+        $this->conectar();
+        $query = "SELECT membresia, COUNT(*) AS cantidad FROM tbl_cliente GROUP BY membresia";
+        $result = $this->conect->query($query);
+        $datos = [];
+        while ($fila = $result->fetch_assoc()) {
+            $datos[] = $fila;
+        }
+        $this->desconectar();
+        return $datos;
+    }
+        
 }
