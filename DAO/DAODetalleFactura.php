@@ -15,6 +15,9 @@ class DAODetalleFactura {
     public function desconectar() {
         $this->conect->close();
     }
+    public function getConexion() {
+        return $this->conect;
+    }
 
     public function obtenerTodosLosDetallesFactura() {
         $this->conectar();

@@ -21,9 +21,9 @@ $usuario = new Usuario();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
-    <button onclick="window.location.href='homeEmpleados.php'">Volver</button>
+    <link rel="stylesheet" href="./css/clientes.css">
+
+   
     <script>
         function cargar(idUsuario, nombreTienda, correo, fechaRegistro, idCliente, membresia, idTienda){ 
             document.formulario1.id_usuario_pk.value = idUsuario;
@@ -66,8 +66,15 @@ $usuario = new Usuario();
     </script>   
 </head>
 <body>
+<header>
+        <div class="logo">
+            <img src="./image/logo.png" alt="Logo de la Empresa">
+        </div>
+        <h1>Gestión de clientes</h1>
+    </header>
+    <button onclick="window.location.href='homeEmpleados.php'">Volver</button>
     <section>
-        <h2 style="position: relative; margin: auto; width: 500px;">Formulario de usuarios</h2>
+        
 
         <form action="" method="post" name="formulario1" id="formulario1" onsubmit="return validar()" style="position: relative; margin: auto; width: 500px;">
             <div class="mb-3">

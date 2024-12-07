@@ -6,11 +6,13 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
     background-color: #161C21;
-    color: white;
-    padding: 20px;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh; /* Asegura que el fondo cubra toda la ventana */
+    font-family: Arial, sans-serif;
 }
+
 
 /* Encabezado */
 header {
@@ -46,6 +48,19 @@ h2 {
     color: white;
     margin-bottom: 10px;
 }
+section {
+    background-color: #5a2b57; /* Mantén el fondo púrpura solo para los formularios */
+    
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px auto;
+    width: 80%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+footer {
+    background-color: #161C21;
+}
+
 
 /* Formularios */
 .form-container {
@@ -121,8 +136,9 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
-    background-color: white;
-    color: black;
+    font-family: Arial, sans-serif;
+    background-color: #161C21;
+    color: white; /* Cambia a un color claro para mejor visibilidad */
     border-radius: 5px;
 }
 
@@ -131,7 +147,10 @@ th, td {
     padding: 12px;
     text-align: left;
 }
-
+td, th {
+    color: black; /* Cambia a un color que contraste */
+    background-color: white; /* O un fondo claro si el color negro no es suficiente */
+}
 th {
     background-color: #683e64; /* Morado */
     color: white;

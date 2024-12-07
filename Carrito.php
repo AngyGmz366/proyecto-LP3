@@ -86,7 +86,7 @@ try {
                 icon: 'success',
                 confirmButtonText: 'Aceptar'
             }).then(() => {
-                window.location.href = 'vistaCategorias.php';
+                window.history.back();
             });
         </script>
     </body>

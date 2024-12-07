@@ -46,7 +46,7 @@ class DAOFactura {
     // Crear una nueva factura
     public function crearFactura($factura) {
         $this->conectar();
-        $fecha_emision = $this->conect->real_escape_string($factura->getFechaEmision());
+        $fecha_emision = $factura->getFechaEmision();
         $subtotal = $factura->getSubtotal();
         $impuesto = $factura->getImpuesto();
         $total = $factura->getTotal();

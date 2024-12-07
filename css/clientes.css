@@ -1,20 +1,19 @@
-/* Estilos generales */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
 body {
     font-family: Arial, sans-serif;
     background-color: #161C21;
+    
     padding: 20px;
 }
 
 header {
-    background-color: #2c2c2c;
+    background-color: #683e64;
     color: white;
-    padding: 20px 20px;
+    padding: 20px;
     text-align: center;
     display: flex;
     align-items: center;
@@ -27,40 +26,111 @@ header {
     left: 20px;
     top: 25px;
 }
-.form-container {
-    background-color: #fff;
+
+section {
+    background-color: #5a2b57;
+    color: white;
+    border-radius: 10px;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px; 
+    margin: 20px auto;
+    width: 80%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-/* Estilos para tablas */
+
+h2 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: white;
+}
+
+form {
+    display: flex;
+    flex-direction: column; /* Asegura que los elementos estén en columna */
+    gap: 15px; /* Espaciado entre los elementos */
+}
+
+form label {
+    font-weight: bold;
+    color: white;
+    margin-bottom: 5px; /* Espacio entre el label y el input */
+}
+
+form input, form select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%; /* Ocupa todo el ancho disponible */
+}
+
+form button {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #884d88;
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #6f3e6f;
+}
+
+section {
+    margin: auto;
+    padding: 20px;
+    max-width: 800px; /* Aumenta el ancho máximo */
+    background-color: #5a2b57;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+
+form button:hover {
+    background-color: #6f3e6f;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+    margin: 20px 0;
+    background-color: #ffffff;
+    color: #333;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
-table, th, td {
-    border: 1px solid #ddd;
-}
-
-th, td {
+table th, table td {
     padding: 12px;
     text-align: left;
+    border-bottom: 1px solid #ddd;
 }
 
-th {
-    background-color: #f2f2f2;
+table th {
+    background-color: #884d88;
+    color: white;
 }
 
-/* Estilos para filas pares en la tabla */
-tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
+table tr:hover {
+    background-color: #f1f1f1;
 }
 
-/* Estilo para el botón "Volver" */
-button[onclick="window.location.href='homeEmpleados.php'"] { 
-    background-color: #28a745; 
-    color: white; 
+button {
+    padding: 10px;
+    background-color: #28a745; /* Color verde por defecto */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #45a049;
 }
